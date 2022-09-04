@@ -6,7 +6,7 @@ module.exports = class App {
   }
   async verify() {
     const body = this.msg;
-    const commands = ["!entrar", "!ranking", "!pontuar"];
+    const commands = ["!entrar", "!ranking", "!pontuar", "!ajuda"];
     const isCommand = commands.some((cmd) => body.startsWith(cmd));
     return isCommand;
   }
@@ -40,6 +40,16 @@ module.exports = class App {
       try {
         let score = await this.ranking.updateScore();
         this.chat.sendMessage(`birrrl você tem ${score} pontos!`);
+      } catch (error) {
+        this.chat.sendMessage(`Atenção: ${error.message}!`);
+      }
+    }
+
+    if (command == "!ajuda") {
+      try {
+        this.chat.sendMessage(
+          "Comandos disponiveis:\n!entrar <nome>\n!ranking\n!pontuar\n!ajuda"
+        );
       } catch (error) {
         this.chat.sendMessage(`Atenção: ${error.message}!`);
       }

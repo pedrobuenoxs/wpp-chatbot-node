@@ -8,16 +8,16 @@ function changeTimezone(date, timezone) {
   return new Date(date.getTime() - diff);
 }
 
-function daysDiff(date1, date2) {
+function daysDiff(date1, date2, score) {
   var diff = Math.abs(date1.getTime() - date2.getTime());
+  if (score === 0) {
+    return 1;
+  }
+  if (diff < 1000 * 60 * 60 * 24) {
+    return 0;
+  }
+
   return Math.ceil(diff / (1000 * 3600 * 24));
 }
-
-var here = new Date(1662081996000);
-var there = changeTimezone(here, "America/Sao_Paulo");
-console.log("five:" + here); // 1
-
-var diff = daysDiff(here, there);
-console.log(diff);
 
 module.exports = { changeTimezone, daysDiff };

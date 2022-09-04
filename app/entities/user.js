@@ -49,27 +49,9 @@ module.exports = class User {
     }
   }
 
-  async getScore() {
-    try {
-      const user = this.user;
-      return user.score;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
-  async getStreak() {
-    try {
-      console.log(this.user);
-      const user = this.user;
-      return user.streak;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
   async canScore() {
     try {
-      const user = this.user;
+      const user = await this.repository.findByID(this.userId);
       const lastUpdate = new Date(user.updatedAt);
       const today = new Date();
       const lastUpdateInBrazil = changeTimezone(
@@ -90,7 +72,7 @@ module.exports = class User {
 
   async isStreak() {
     try {
-      const user = this.user;
+      const user = await this.repository.findByID(this.userId);
       const lastUpdate = new Date(user.updatedAt);
       const today = new Date();
       const lastUpdateInBrazil = changeTimezone(
@@ -111,13 +93,27 @@ module.exports = class User {
 
   async updateScore() {
     try {
-      const user = this.user;
-      if (this.canScore && this.isStreak) {
-        user.score = user.score + 1;
-        user.streak = user.streak + 1;
-      } else if (this.canScore && !this.isStreak) {
+      const user = await this.repository.findByID(this.userId);
+
+      const lastUpdate = new Date(user.updatedAt);
+      const today = new Date();
+      const lastUpdateInBrazil = changeTimezone(
+        lastUpdate,
+        "America/Sao_Paulo"
+      );
+      const todayInBrazil = changeTimezone(today, "America/Sao_Paulo");
+      console.log(`
+      lastUpdate: ${lastUpdateInBrazil}
+      today: ${todayInBrazil}`);
+      const diff = daysDiff(lastUpdateInBrazil, todayInBrazil, user.score);
+      console.log(diff);
+      if (diff > 1) {
         user.score = user.score + 1;
         user.streak = 0;
+      }
+      if (diff === 1) {
+        user.streak = user.streak + 1;
+        user.score = user.score + 1;
       } else {
         throw new Error("Ainda não é possível pontuar");
       }

@@ -31,9 +31,9 @@ module.exports = class UserRepository {
 
   async UpdateScore(data) {
     try {
-      const { id, score, streak } = data;
+      const { userID, score, streak } = data;
       const update = await UserRecordSchema.findOneAndUpdate(
-        { userID: id },
+        { userID: userID },
         { score: score, streak: streak },
         { new: true }
       );

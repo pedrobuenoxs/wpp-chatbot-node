@@ -15,4 +15,4 @@ const UserRecordSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("dev", UserRecordSchema);
+module.exports = mongoose.model("userRecordModel", UserRecordSchema);

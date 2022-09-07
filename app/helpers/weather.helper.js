@@ -5,7 +5,7 @@ async function getWeather() {
   try {
     const response = await axios.get("http://api.airvisual.com/v2/city", {
       params: {
-        city: "Rio Claro",
+        city: "São Paulo",
         state: "Sao Paulo",
         country: "Brazil",
         key: API_KEY,

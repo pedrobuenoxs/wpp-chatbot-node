@@ -122,20 +122,26 @@ module.exports = class Commands {
       );
     }
     if (command == "!bomdia") {
-      let msg = `Bom dia, grupo!\n`;
-      const data = await getWeather();
-      const temperatura = data.current.weather.tp;
-      msg += `A temperatura agora é de ${temperatura}°C!\n`;
-      if (temperatura > 25) {
-        msg += `Está quente, então lembre-se de beber bastante água!`;
+      try {
+        let msg = `Bom dia, grupo!\n`;
+        const data = await getWeather();
+        const temperatura = data.current.weather.tp;
+        msg += `A temperatura agora é de ${temperatura}°C!\n`;
+        if (temperatura > 25) {
+          msg += `Está quente, então lembre-se de beber bastante água!`;
+        }
+        if (temperatura < 20) {
+          msg += `Está frio, então lembre-se de se vestir bem!`;
+        }
+        if (temperatura >= 20 && temperatura <= 25) {
+          msg += `Está um dia agradável, então aproveite!`;
+        }
+        await this.chat.sendMessage(msg);
+      } catch (error) {
+        await this.chat.sendMessage(
+          `Alguém chama o sorrisão - ${error.message}`
+        );
       }
-      if (temperatura < 20) {
-        msg += `Está frio, então lembre-se de se vestir bem!`;
-      }
-      if (temperatura >= 20 && temperatura <= 25) {
-        msg += `Está um dia agradável, então aproveite!`;
-      }
-      await this.chat.sendMessage(msg);
     }
     if (command == "!tusca") {
       const today = new Date();

@@ -26,14 +26,15 @@ module.exports = class App {
     if (command == "!ranking") {
       try {
         const users = await this.ranking.getAllUsers();
+        const sortedUsers = users.sort((a, b) => b.score - a.score);
         let msg = "Ranking:\n";
-        users.forEach((user, index) => {
+        sortedUsers.forEach((user, index) => {
           if (user.streak >= 2) {
-            msg += `${index + 1} - ${user.name} - ${user.score} (${
+            msg += `${index + 1} - ${user.name}/100 - ${user.score} (${
               user.streak
             }🔥)\n`;
           } else {
-            msg += `${index + 1} - ${user.name} - ${user.score}\n`;
+            msg += `${index + 1} - ${user.name}/100 - ${user.score}\n`;
           }
         });
         this.chat.sendMessage(msg);

@@ -106,18 +106,18 @@ module.exports = class User {
       lastUpdate: ${lastUpdateInBrazil}
       today: ${todayInBrazil}`);
       const diff = daysDiff(lastUpdateInBrazil, todayInBrazil, user.score);
-      console.log(diff);
-      if (diff >= 1) {
+      console.log(`user before: ${user}`);
+      console.log("diff::", diff);
+      if (diff === 0) {
+        throw new Error("Você já pontuou hoje");
+      } else if (diff === 1) {
+        user.streak = user.streak + 1;
+        user.score = user.score + 1;
+      } else if (diff > 1) {
         user.score = user.score + 1;
         user.streak = 0;
       }
-      if (diff === 1) {
-        user.streak = user.streak + 1;
-        user.score = user.score + 1;
-      } else {
-        throw new Error("Ainda não é possível pontuar");
-      }
-
+      console.log(`user before: ${user}`);
       return await this.repository.UpdateScore(user);
     } catch (error) {
       throw new Error(error.message);

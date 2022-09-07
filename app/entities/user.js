@@ -107,7 +107,7 @@ module.exports = class User {
       today: ${todayInBrazil}`);
       const diff = daysDiff(lastUpdateInBrazil, todayInBrazil, user.score);
       console.log(diff);
-      if (diff > 1) {
+      if (diff >= 1) {
         user.score = user.score + 1;
         user.streak = 0;
       }

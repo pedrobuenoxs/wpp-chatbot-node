@@ -30,11 +30,11 @@ module.exports = class App {
         let msg = "Ranking:\n";
         sortedUsers.forEach((user, index) => {
           if (user.streak >= 2) {
-            msg += `${index + 1} - ${user.name}/100 - ${user.score} (${
+            msg += `${index + 1} - ${user.name} - ${user.score}/100 (${
               user.streak
             }🔥)\n`;
           } else {
-            msg += `${index + 1} - ${user.name}/100 - ${user.score}\n`;
+            msg += `${index + 1} - ${user.name} - ${user.score}/100\n`;
           }
         });
         this.chat.sendMessage(msg);

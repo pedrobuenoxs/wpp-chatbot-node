@@ -5,7 +5,7 @@ const App = require("./app/service/app.service");
 const Ranking = require("./app/entities/ranking");
 const UserRepository = require("./app/db/user.repository");
 const User = require("./app/entities/user");
-
+const Commands = require("./app/service/commands.service");
 const client = new Client({
   authStrategy: new LocalAuth(),
   puppeteer: {
@@ -35,8 +35,9 @@ client.on("message", async (msg) => {
       const repository = new UserRepository();
       const user = new User(repository, user_id);
       const ranking = new Ranking(user);
-      const app = new App(msg.body, chat, ranking);
-      const controller = new MsgController(app);
+      const appService = new App(msg.body, chat, ranking);
+      const commandService = new Commands(msg.body, chat);
+      const controller = new MsgController(appService, commandService);
       await controller.handle(msg);
     } catch (error) {
       console.log(error);
@@ -48,10 +49,10 @@ client.on("disconnected", (reason) => {
   console.log("Client was logged out", reason);
 });
 
-require("dotenv").config();
+const { DB_URI } = require("./env");
 
 const mongoose = require("mongoose");
-const DB_URI = process.env.DB_URI;
+// const DB_URI = process.env.DB_URI;
 mongoose
   .connect(DB_URI)
   .then(() => {
@@ -60,3 +61,5 @@ mongoose
   .catch((err) => {
     console.log("Error while connecting database::", err);
   });
+
+const server = require("./server");

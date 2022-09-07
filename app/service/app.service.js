@@ -27,8 +27,14 @@ module.exports = class App {
       try {
         const users = await this.ranking.getAllUsers();
         let msg = "Ranking:\n";
-        users.forEach((user) => {
-          msg += `${user.name} - ${user.score}/100 (${user.streak})\n`;
+        users.forEach((user, index) => {
+          if (user.streak >= 2) {
+            msg += `${index + 1} - ${user.name} - ${user.score} (${
+              user.streak
+            }🔥)\n`;
+          } else {
+            msg += `${index + 1} - ${user.name} - ${user.score}\n`;
+          }
         });
         this.chat.sendMessage(msg);
       } catch (error) {

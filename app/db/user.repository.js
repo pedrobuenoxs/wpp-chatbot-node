@@ -2,6 +2,10 @@ const UserRecordSchema = require("./user.model");
 const mongoose = require("mongoose");
 
 module.exports = class UserRepository {
+  constructor() {
+    this.All = this.getData();
+  }
+
   async RegisterUser(data) {
     const record = new UserRecordSchema({
       _id: new mongoose.Types.ObjectId(),

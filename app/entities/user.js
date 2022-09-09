@@ -1,4 +1,8 @@
-const { changeTimezone, daysDiff } = require("../helpers/date.helper.js");
+const {
+  changeTimezone,
+  isToday,
+  isTomorrow,
+} = require("../helpers/date.helper.js");
 
 module.exports = class User {
   constructor(repository, user_id) {
@@ -49,48 +53,6 @@ module.exports = class User {
     }
   }
 
-  async canScore() {
-    try {
-      const user = await this.repository.findByID(this.userId);
-      const lastUpdate = new Date(user.updatedAt);
-      const today = new Date();
-      const lastUpdateInBrazil = changeTimezone(
-        lastUpdate,
-        "America/Sao_Paulo"
-      );
-      const todayInBrazil = changeTimezone(today, "America/Sao_Paulo");
-      const diff = daysDiff(lastUpdateInBrazil, todayInBrazil);
-      if (diff >= 1) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
-  async isStreak() {
-    try {
-      const user = await this.repository.findByID(this.userId);
-      const lastUpdate = new Date(user.updatedAt);
-      const today = new Date();
-      const lastUpdateInBrazil = changeTimezone(
-        lastUpdate,
-        "America/Sao_Paulo"
-      );
-      const todayInBrazil = changeTimezone(today, "America/Sao_Paulo");
-      const diff = daysDiff(lastUpdateInBrazil, todayInBrazil);
-      if (diff === 1) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
   async updateScore() {
     try {
       const user = await this.repository.findByID(this.userId);
@@ -105,15 +67,13 @@ module.exports = class User {
       console.log(`
       lastUpdate: ${lastUpdateInBrazil}
       today: ${todayInBrazil}`);
-      const diff = daysDiff(lastUpdateInBrazil, todayInBrazil, user.score);
-      console.log(`user before: ${user}`);
-      console.log("diff::", diff);
-      if (diff === 0) {
+
+      if (isToday(lastUpdateInBrazil, todayInBrazil)) {
         throw new Error("Você já pontuou hoje");
-      } else if (diff === 1) {
+      } else if (isTomorrow(lastUpdateInBrazil, todayInBrazil)) {
         user.streak = user.streak + 1;
         user.score = user.score + 1;
-      } else if (diff > 1) {
+      } else {
         user.score = user.score + 1;
         user.streak = 0;
       }

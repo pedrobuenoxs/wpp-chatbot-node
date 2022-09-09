@@ -1,3 +1,4 @@
+const { changeTimezone } = require("../helpers/date.helper.js");
 module.exports = class App {
   constructor(msg, chat, ranking) {
     this.msg = msg;
@@ -57,6 +58,23 @@ module.exports = class App {
         this.chat.sendMessage(
           "Comandos disponiveis:\n!entrar <nome>\n!ranking\n!pontuar\n!ajuda"
         );
+      } catch (error) {
+        this.chat.sendMessage(`Atenção: ${error.message}!`);
+      }
+    }
+    if (command == "!profile") {
+      try {
+        const name = commandArray[1];
+        const user = await this.ranking.getUserProfile();
+        let msg = `Perfil de ${user.name}:\n`;
+        const data = user.data;
+        data.forEach((day) => {
+          msg += `${changeTimezone(day.date).toDateString()} - ${
+            day.score
+          }/100\n`;
+        });
+
+        this.chat.sendMessage(msg);
       } catch (error) {
         this.chat.sendMessage(`Atenção: ${error.message}!`);
       }

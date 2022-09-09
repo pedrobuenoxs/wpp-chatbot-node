@@ -17,7 +17,7 @@ function daysDiff(date1, date2, score) {
     return 0;
   }
 
-  return Math.ceil(diff / (1000 * 3600 * 24));
+  return Math.ceil(diff / (1000 * 3600 * 18));
 }
 
 module.exports = { changeTimezone, daysDiff };

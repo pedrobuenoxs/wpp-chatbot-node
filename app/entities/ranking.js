@@ -27,5 +27,12 @@ module.exports = class Ranking {
     }
   }
 
-  async getStreak() {}
+  async getUserProfile() {
+    try {
+      const user = await this.user.getUser();
+      return user;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 };

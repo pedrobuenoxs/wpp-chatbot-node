@@ -9,10 +9,11 @@ const UserRecordSchema = new Schema(
     streak: { type: Number },
     createdAt: { type: Date },
     updatedAt: { type: Date },
+    data: { type: Array },
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = mongoose.model("userRecordModel", UserRecordSchema);
+module.exports = mongoose.model("dev-profile", UserRecordSchema);

@@ -22,7 +22,6 @@ module.exports = class User {
   async isRegistered() {
     try {
       const exist = await this.repository.findByID(this.userId);
-
       if (exist) {
         return true;
       } else {
@@ -46,6 +45,7 @@ module.exports = class User {
         streak: 0,
         createdAt: new Date().getTime(),
         updatedAt: new Date().getTime(),
+        data: [],
       });
       return user;
     } catch (error) {
@@ -56,7 +56,7 @@ module.exports = class User {
   async updateScore() {
     try {
       const user = await this.repository.findByID(this.userId);
-
+      const data = user.data;
       const lastUpdate = new Date(user.updatedAt);
       const today = new Date();
       const lastUpdateInBrazil = changeTimezone(
@@ -73,13 +73,22 @@ module.exports = class User {
       } else if (isTomorrow(lastUpdateInBrazil, todayInBrazil)) {
         user.streak = user.streak + 1;
         user.score = user.score + 1;
+        user.data = [
+          ...data,
+          { score: user.score, streak: user.streak, date: new Date() },
+        ];
       } else {
         user.score = user.score + 1;
         user.streak = 0;
+        user.data = [
+          ...data,
+          { score: user.score, streak: user.streak, date: new Date() },
+        ];
       }
       console.log(`user before: ${user}`);
       return await this.repository.UpdateScore(user);
     } catch (error) {
+      console.log(error.message);
       throw new Error(error.message);
     }
   }
@@ -93,3 +102,13 @@ module.exports = class User {
     }
   }
 };
+
+/*
+data = [
+  {
+    date: "2021-01-01",
+    score: 1,
+    streak: 1,
+  },
+]
+*/

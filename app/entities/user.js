@@ -102,13 +102,3 @@ module.exports = class User {
     }
   }
 };
-
-/*
-data = [
-  {
-    date: "2021-01-01",
-    score: 1,
-    streak: 1,
-  },
-]
-*/

@@ -4,7 +4,7 @@ function changeTimezone(date, timezone) {
       timeZone: timezone,
     })
   );
-  var diff = date.getTime() - invdate.getTime();
+  var diff = date.getTime() - date.getTime();
   return new Date(date.getTime() - diff);
 }
 

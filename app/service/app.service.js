@@ -66,7 +66,7 @@ module.exports = class App {
       try {
         const name = commandArray[1];
         const user = await this.ranking.getUserProfile();
-        let msg = `Perfil de ${user.name}:\n`;
+        let msg = `Histórico de ${user.name}:\n`;
         const data = user.data;
         data.forEach((day) => {
           msg += `${changeTimezone(day.date).toDateString()} - ${

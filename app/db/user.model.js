@@ -9,7 +9,7 @@ const UserRecordSchema = new Schema(
     streak: { type: Number },
     createdAt: { type: Date },
     updatedAt: { type: Date },
-    data: { type: Object },
+    data: { type: Array },
   },
   {
     timestamps: true,

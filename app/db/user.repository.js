@@ -33,12 +33,12 @@ module.exports = class UserRepository {
     return await UserRecordSchema.updateOne({ id }, { streak });
   }
 
-  async UpdateScore(data) {
+  async UpdateScore(user) {
     try {
-      const { userID, score, streak } = data;
+      const { userID, score, streak, data } = user;
       const update = await UserRecordSchema.findOneAndUpdate(
         { userID: userID },
-        { score: score, streak: streak },
+        { score: score, streak: streak, data: data },
         { new: true }
       );
       return update;

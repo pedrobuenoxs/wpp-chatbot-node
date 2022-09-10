@@ -69,9 +69,10 @@ module.exports = class App {
         let msg = `Histórico de ${user.name}:\n`;
         const data = user.data;
         data.forEach((day) => {
-          msg += `${changeTimezone(day.date).toDateString()} - ${
-            day.score
-          }/100\n`;
+          msg += `${changeTimezone(
+            day.date,
+            "America/Sao_Paulo"
+          ).toDateString()} - ${day.score}/100\n`;
         });
 
         this.chat.sendMessage(msg);

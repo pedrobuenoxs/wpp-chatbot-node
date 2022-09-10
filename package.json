@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node index.js"
+    "start": "node node_modules/puppeteer/install.js && node index.js"
   },
   "dependencies": {
     "axios": "^0.27.2",

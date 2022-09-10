@@ -8,13 +8,13 @@ console.log(DB_URI);
 
 const UserRecordSchema = require("../app/db/user.model");
 
-mongoose
-  .connect(
-    "mongodb+srv://botbuilder:m3iNSnYlVNSKXnjQ@botbuilder.90fsdqg.mongodb.net/?retryWrites=true&w=majority"
-  )
-  .then(() => {
-    console.log("Db connected");
-  });
+// mongoose
+//   .connect(
+//     ""
+//   )
+//   .then(() => {
+//     console.log("Db connected");
+//   });
 
 async function saveData() {
   const all = await UserRecordSchema.find();

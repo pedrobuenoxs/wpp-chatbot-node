@@ -70,7 +70,10 @@ module.exports = class User {
 
       if (isToday(lastUpdateInBrazil, todayInBrazil)) {
         throw new Error("Você já pontuou hoje");
-      } else if (isTomorrow(lastUpdateInBrazil, todayInBrazil)) {
+      } else if (
+        isTomorrow(lastUpdateInBrazil, todayInBrazil) ||
+        user.score == 0
+      ) {
         user.streak = user.streak + 1;
         user.score = user.score + 1;
         user.data = [

@@ -52,7 +52,7 @@ window.onload = function () {
         data: [
           { score: 1, streak: 0, date: "2022-08-29T12:00:00.000Z" },
           { score: 2, streak: 0, date: "2022-08-31T12:00:00.000Z" },
-          { score: 3, streak: 0, date: "2022-09-05T12:00:00.000Z" },
+          { score: 32, streak: 0, date: "2022-09-05T12:00:00.000Z" },
         ],
       },
     },

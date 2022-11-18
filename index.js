@@ -12,8 +12,6 @@ const { DB_URI } = require("./env");
 
 const mongoose = require("mongoose");
 
-const server = require("./server");
-
 mongoose
   .connect(DB_URI)
   .then(() => {

@@ -71,7 +71,15 @@ module.exports = class User {
         changeTimezone(score.date, "America/Sao_Paulo")
       );
       const dateParts = dateString.split("/");
-      const date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+      const date = new Date(
+        dateParts[2],
+        dateParts[1] - 1,
+        dateParts[0],
+        10,
+        0,
+        0,
+        0
+      );
       const dateInBrazil = changeTimezone(new Date(date), "America/Sao_Paulo");
 
       const haveScored = scoreDates.map((scoreDate) => {
@@ -91,7 +99,7 @@ module.exports = class User {
           {
             score: user.score,
             streak: user.streak,
-            date: date.setHours(date.getTime() + 3),
+            date: date,
           },
         ];
         return await this.repository.UpdateScore(user);

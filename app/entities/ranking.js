@@ -9,12 +9,25 @@ module.exports = class Ranking {
       throw new Error(error.message);
     }
   }
-  async updateScore() {
-    try {
-      let user = await this.user.updateScore();
-      return user.score;
-    } catch (error) {
-      throw new Error(error.message);
+  async updateScore(date) {
+    if (date) {
+      try {
+        let user = await this.user.updateOldScore(date);
+        return user.score;
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    } else {
+      try {
+        const todayDate = new Date();
+        const day = todayDate.getDate();
+        const month = todayDate.getMonth() + 1;
+        const year = todayDate.getFullYear();
+        let user = await this.user.updateOldScore(`${day}/${month}/${year}`);
+        return user.score;
+      } catch (error) {
+        throw new Error(error.message);
+      }
     }
   }
 

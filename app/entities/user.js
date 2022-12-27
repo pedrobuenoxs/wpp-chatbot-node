@@ -88,7 +88,11 @@ module.exports = class User {
         user.streak = 0;
         user.data = [
           ...userScores,
-          { score: user.score, streak: user.streak, date: date },
+          {
+            score: user.score,
+            streak: user.streak,
+            date: date.setHours(date.getTime() + 3),
+          },
         ];
         return await this.repository.UpdateScore(user);
       }

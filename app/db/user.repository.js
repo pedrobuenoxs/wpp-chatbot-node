@@ -19,20 +19,6 @@ module.exports = class UserRepository {
     return await UserRecordSchema.findOne({ userID: user_id });
   }
 
-  async UpdateStreak(data) {
-    const { id, streak } = data;
-    const user = await UserRecordSchema.find({ id: id });
-    if (user.updatedAt < Date.now() - 1000 * 60 * 60 * 24) {
-      await UserRecordSchema.updateOne({ id: id }, { streak: 1 });
-      console.log("updated");
-    } else {
-      await UserRecordSchema.updateOne({ id: id }, { streak: streak + 1 });
-      console.log("not updated");
-    }
-
-    return await UserRecordSchema.updateOne({ id }, { streak });
-  }
-
   async UpdateScore(user) {
     try {
       const { userID, score, streak, data } = user;

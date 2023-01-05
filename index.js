@@ -40,10 +40,13 @@ mongoose
       const contact = await msg.getContact();
       const user_id = contact.id._serialized;
       const isGroup = chat.isGroup;
-      console.log(msg.body);
 
       if (isGroup) {
         try {
+          if (msg.hasQuotedMsg) {
+            const quote = await msg.getQuotedMessage();
+            console.log(quote.body);
+          }
           const repository = new UserRepository();
           const user = new User(repository, user_id);
           const ranking = new Ranking(user);

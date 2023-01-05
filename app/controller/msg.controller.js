@@ -5,11 +5,6 @@ module.exports = class MsgController {
   }
 
   async handle(msg) {
-    if (this.commands.verify(msg)) {
-      this.commands.handle();
-    }
-    if (this.app.verify(msg)) {
-      await this.app.handle();
-    }
+    await this.app.handle();
   }
 };

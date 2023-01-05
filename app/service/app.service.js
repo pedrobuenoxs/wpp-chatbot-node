@@ -5,12 +5,6 @@ module.exports = class App {
     this.chat = chat;
     this.ranking = ranking;
   }
-  async verify() {
-    const body = this.msg;
-    const commands = ["!entrar", "!ranking", "!pontuar", "!ajuda"];
-    const isCommand = commands.some((cmd) => body.startsWith(cmd));
-    return isCommand;
-  }
   async handle() {
     const strToArray = (cmdString) => cmdString.split(" ");
     const commandArray = strToArray(this.msg);
@@ -24,20 +18,10 @@ module.exports = class App {
         this.chat.sendMessage(`Atenção: ${error.message}!`);
       }
     }
+
     if (command == "!ranking") {
       try {
-        const users = await this.ranking.getAllUsers();
-        const sortedUsers = users.sort((a, b) => b.score - a.score);
-        let msg = "Ranking:\n";
-        sortedUsers.forEach((user, index) => {
-          if (user.streak >= 2) {
-            msg += `${index + 1} - ${user.name} - ${user.score}/100 (${
-              user.streak
-            }🔥)\n`;
-          } else {
-            msg += `${index + 1} - ${user.name} - ${user.score}/100\n`;
-          }
-        });
+        const users = await this.ranking.createList();
         this.chat.sendMessage(msg);
       } catch (error) {
         this.chat.sendMessage(`Atenção: ${error.message}!`);
@@ -64,17 +48,6 @@ module.exports = class App {
     }
     if (command == "!profile") {
       try {
-        const name = commandArray[1];
-        const user = await this.ranking.getUserProfile();
-        let msg = `Histórico de ${user.name}:\n`;
-        const data = user.data;
-        data.forEach((day) => {
-          msg += `${changeTimezone(
-            day.date,
-            "America/Sao_Paulo"
-          ).toDateString()} - ${day.score}/100\n`;
-        });
-
         this.chat.sendMessage(msg);
       } catch (error) {
         this.chat.sendMessage(`Atenção: ${error.message}!`);

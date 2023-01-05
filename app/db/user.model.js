@@ -5,10 +5,8 @@ const UserRecordSchema = new Schema(
   {
     userID: { type: String },
     name: { type: String },
+    imgUrl: { type: String },
     score: { type: Number },
-    streak: { type: Number },
-    createdAt: { type: Date },
-    updatedAt: { type: Date },
     data: { type: Array },
   },
   {

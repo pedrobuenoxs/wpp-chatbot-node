@@ -1,4 +1,3 @@
-const getWeather = require("../helpers/weather.helper.js");
 module.exports = class Commands {
   motivacao = [
     "se voce nao for só voce nao vai",

@@ -13,7 +13,8 @@ module.exports = class App {
     if (command == "!entrar") {
       try {
         const name = commandArray[1];
-        await this.ranking.join(name);
+        const userName = await this.ranking.join(name);
+        this.chat.sendMessage(`boooora ${userName}!`);
       } catch (error) {
         this.chat.sendMessage(`Atenção: ${error.message}!`);
       }
@@ -48,7 +49,8 @@ module.exports = class App {
     }
     if (command == "!profile") {
       try {
-        this.chat.sendMessage(msg);
+        const profile = await this.ranking.getUserProfile();
+        this.chat.sendMessage(profile);
       } catch (error) {
         this.chat.sendMessage(`Atenção: ${error.message}!`);
       }

@@ -3,17 +3,21 @@ module.exports = class Ranking {
     this.user = user;
   }
 
-  async join(name) {
+  async join(name, imgUrl, date) {
     try {
-      const user = await this.user.Register(name);
-      return user.name;
+      const isRegistered = await this.user.isRegistered;
+      if (isRegistered) {
+        throw new Error("Você já está registrado!");
+      }
+      const user = await this.user.Register(name, imgUrl, date);
+      return user;
     } catch (error) {
       throw new Error(error.message);
     }
   }
-  async updateScore() {
+  async updateScore(date) {
     try {
-      let user = await this.user.updateScore();
+      let user = await this.user.updateScore(date);
       return user.score;
     } catch (error) {
       throw new Error(error.message);

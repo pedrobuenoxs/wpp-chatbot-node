@@ -7,14 +7,22 @@ const UserRepository = require("./app/db/user.repository");
 const User = require("./app/entities/user");
 const Commands = require("./app/service/commands.service");
 const { MongoStore } = require("wwebjs-mongo");
+const { app } = require("./config/app");
 
 const { DB_URI } = require("./env");
 
 const mongoose = require("mongoose");
+const port = process.env.PORT || 3000;
+const { UserRouter } = require("./api/routes/routes");
+
+app.use("/api", UserRouter);
 
 mongoose
   .connect(DB_URI)
   .then(() => {
+    app.listen(port, () => {
+      console.log(`online on port: ${port}`);
+    });
     const store = new MongoStore({ mongoose: mongoose });
     const client = new Client({
       authStrategy: new RemoteAuth({
@@ -43,14 +51,10 @@ mongoose
 
       if (isGroup) {
         try {
-          if (msg.hasQuotedMsg) {
-            const quote = await msg.getQuotedMessage();
-            console.log(quote.body);
-          }
           const repository = new UserRepository();
           const user = new User(repository, user_id);
           const ranking = new Ranking(user);
-          const appService = new App(msg.body, chat, ranking);
+          const appService = new App(msg.body, chat, ranking, contact);
           const commandService = new Commands(msg.body, chat);
           const controller = new MsgController(appService, commandService);
           await controller.handle(msg);

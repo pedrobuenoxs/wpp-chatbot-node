@@ -1,5 +1,4 @@
 const UserRecordSchema = require("./user.model");
-const mongoose = require("mongoose");
 
 module.exports = class UserRepository {
   constructor() {
@@ -7,12 +6,16 @@ module.exports = class UserRepository {
   }
 
   async RegisterUser(data) {
-    const record = new UserRecordSchema({
-      _id: new mongoose.Types.ObjectId(),
-      ...data,
-    });
+    const record = new UserRecordSchema(data);
     const save = record.save();
-    return save;
+    const mappedData = {
+      id: save.userID,
+      name: save.name,
+      imgUrl: save.imgUrl,
+      score: save.score,
+      data: save.data,
+    };
+    return mappedData;
   }
 
   async findByID(user_id) {
@@ -21,10 +24,10 @@ module.exports = class UserRepository {
 
   async UpdateScore(user) {
     try {
-      const { userID, score, streak, data } = user;
+      const { userID, score, data } = user;
       const update = await UserRecordSchema.findOneAndUpdate(
         { userID: userID },
-        { score: score, streak: streak, data: data },
+        { score: score, data: data },
         { new: true }
       );
       return update;

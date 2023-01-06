@@ -1,20 +1,25 @@
-const { changeTimezone } = require("../helpers/date.helper.js");
+const { yesterday, dateInBrazil } = require("../helpers/date.helper.js");
 module.exports = class App {
-  constructor(msg, chat, ranking) {
+  constructor(msg, chat, ranking, contact) {
     this.msg = msg;
     this.chat = chat;
     this.ranking = ranking;
+    this.contact = contact;
   }
   async handle() {
     const strToArray = (cmdString) => cmdString.split(" ");
     const commandArray = strToArray(this.msg);
     const command = commandArray[0].toLowerCase();
-
+    const flag = commandArray[1];
+    const thirdParam = commandArray[2];
+    let date = dateInBrazil();
     if (command == "!entrar") {
       try {
+        const imgUrl = await this.contact.getProfilePicUrl();
+
         const name = commandArray[1];
-        const userName = await this.ranking.join(name);
-        this.chat.sendMessage(`boooora ${userName}!`);
+        const userName = await this.ranking.join(name, imgUrl, date);
+        this.chat.sendMessage(`boooora ${name}!`);
       } catch (error) {
         this.chat.sendMessage(`Atenção: ${error.message}!`);
       }
@@ -30,8 +35,15 @@ module.exports = class App {
     }
 
     if (command == "!pontuar") {
+      if (flag == "ontem") {
+        const yesterday_ = yesterday();
+        date = dateInBrazil(yesterday_);
+      }
+      if (flag == "-r") {
+        date = thirdParam;
+      }
       try {
-        let score = await this.ranking.updateScore();
+        let score = await this.ranking.updateScore(date);
         this.chat.sendMessage(`birrrl você tem ${score} pontos!`);
       } catch (error) {
         this.chat.sendMessage(`Atenção: ${error.message}!`);

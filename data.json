@@ -2,7 +2,7 @@
   "_id": { "$oid": "630bf2a4ac556318d5a22521" },
   "userID": "556384412527@c.us",
   "name": "Sorriso",
-  "score": { "$numberInt": "30" },
+  "score": { "$numberInt": "1" },
   "createdAt": { "$date": { "$numberLong": "1661716596329" } },
   "updatedAt": { "$date": { "$numberLong": "1672783181670" } },
   "data": [
@@ -12,120 +12,9 @@
       "emoji": "😀"
     },
     {
-      "score": { "$numberInt": "2" },
-      "date": { "$date": { "$numberLong": "1661947200000" } }
-    },
-    {
-      "score": { "$numberInt": "3" },
-      "date": { "$date": { "$numberLong": "1662120000000" } }
-    },
-    {
-      "score": { "$numberInt": "4" },
-      "date": { "$date": { "$numberLong": "1662379200000" } }
-    },
-    {
-      "score": { "$numberInt": "5" },
-      "date": { "$date": { "$numberLong": "1663026648662" } }
-    },
-    {
-      "score": { "$numberInt": "6" },
-      "date": { "$date": { "$numberLong": "1663256958167" } }
-    },
-    {
-      "score": { "$numberInt": "7" },
-      "date": { "$date": { "$numberLong": "1663367695351" } }
-    },
-    {
-      "score": { "$numberInt": "8" },
-      "date": { "$date": { "$numberLong": "1663632734995" } }
-    },
-    {
-      "score": { "$numberInt": "9" },
-      "date": { "$date": { "$numberLong": "1663725367463" } }
-    },
-    {
-      "score": { "$numberInt": "10" },
-      "date": { "$date": { "$numberLong": "1664234522125" } }
-    },
-    {
-      "score": { "$numberInt": "11" },
-      "date": { "$date": { "$numberLong": "1664329505208" } }
-    },
-    {
-      "score": { "$numberInt": "12" },
-      "date": { "$date": { "$numberLong": "1664468220535" } }
-    },
-    {
-      "score": { "$numberInt": "13" },
-      "date": { "$date": { "$numberLong": "1664722509386" } }
-    },
-    {
-      "score": { "$numberInt": "14" },
-      "date": { "$date": { "$numberLong": "1664838908175" } }
-    },
-    {
-      "score": { "$numberInt": "15" },
-      "date": { "$date": { "$numberLong": "1664935872776" } }
-    },
-    {
-      "score": { "$numberInt": "16" },
-      "date": { "$date": { "$numberLong": "1666560638487" } }
-    },
-    {
-      "score": { "$numberInt": "17" },
-      "date": { "$date": { "$numberLong": "1667839070727" } }
-    },
-    {
-      "score": { "$numberInt": "18" },
-      "date": { "$date": { "$numberLong": "1667925288160" } }
-    },
-    {
-      "score": { "$numberInt": "19" },
-      "date": { "$date": { "$numberLong": "1668098376284" } }
-    },
-    {
-      "score": { "$numberInt": "20" },
-      "date": { "$date": { "$numberLong": "1669073675419" } }
-    },
-    {
-      "score": { "$numberInt": "21" },
-      "date": { "$date": { "$numberLong": "1669167794063" } }
-    },
-    {
-      "score": { "$numberInt": "22" },
-      "date": { "$date": { "$numberLong": "1669766888918" } }
-    },
-    {
-      "score": { "$numberInt": "23" },
-      "date": { "$date": { "$numberLong": "1670367057588" } }
-    },
-    {
-      "score": { "$numberInt": "24" },
-      "date": { "$date": { "$numberLong": "1670431821380" } }
-    },
-    {
-      "score": { "$numberInt": "25" },
-      "date": { "$date": { "$numberLong": "1670975250619" } }
-    },
-    {
-      "score": { "$numberInt": "26" },
-      "date": { "$date": { "$numberLong": "1672135200000" } }
-    },
-    {
-      "score": { "$numberInt": "27" },
-      "date": { "$date": { "$numberLong": "1672394400000" } }
-    },
-    {
-      "score": { "$numberInt": "28" },
-      "date": { "$date": { "$numberLong": "1672480800000" } }
-    },
-    {
-      "score": { "$numberInt": "29" },
-      "date": { "$date": { "$numberLong": "1672653600000" } }
-    },
-    {
-      "score": { "$numberInt": "30" },
-      "date": { "$date": { "$numberLong": "1672740000000" } }
+      "score": { "$numberInt": "1" },
+      "date": { "$date": { "$numberLong": "1661774400000" } },
+      "emoji": "🏃‍♂️"
     }
   ],
   "__v": { "$numberInt": "0" }

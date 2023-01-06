@@ -1,9 +1,3 @@
-const {
-  changeTimezone,
-  isToday,
-  isTomorrow,
-} = require("../helpers/date.helper.js");
-
 module.exports = class User {
   constructor(repository, user_id) {
     this.userId = user_id;
@@ -19,79 +13,58 @@ module.exports = class User {
       throw new Error(error.message);
     }
   }
-  async isRegistered() {
-    try {
-      const exist = await this.repository.findByID(this.userId);
-      if (exist) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
-  async Register(name) {
-    try {
-      if (await this.isRegistered) {
-        throw new Error("Usuário já cadastrado");
-      }
-
-      const user = await this.repository.RegisterUser({
-        userID: this.userId,
-        name: name,
-        score: 0,
-        streak: 0,
-        createdAt: new Date().getTime(),
-        updatedAt: new Date().getTime(),
-        data: [],
-      });
-      return user;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
-  async updateScore() {
+  async isRegistered(user_id) {
     try {
       const user = await this.repository.findByID(this.userId);
-      const data = user.data;
-      const lastUpdate = new Date(user.updatedAt);
-      const today = new Date();
-      const lastUpdateInBrazil = changeTimezone(
-        lastUpdate,
-        "America/Sao_Paulo"
-      );
-      const todayInBrazil = changeTimezone(today, "America/Sao_Paulo");
-      console.log(`
-      lastUpdate: ${lastUpdateInBrazil}
-      today: ${todayInBrazil}`);
-
-      if (isToday(lastUpdateInBrazil, todayInBrazil)) {
-        throw new Error("Você já pontuou hoje");
-      } else if (
-        isTomorrow(lastUpdateInBrazil, todayInBrazil) ||
-        user.score == 0
-      ) {
-        user.streak = user.streak + 1;
-        user.score = user.score + 1;
-        user.data = [
-          ...data,
-          { score: user.score, streak: user.streak, date: new Date() },
-        ];
-      } else {
-        user.score = user.score + 1;
-        user.streak = 0;
-        user.data = [
-          ...data,
-          { score: user.score, streak: user.streak, date: new Date() },
-        ];
-      }
-      console.log(`user before: ${user}`);
-      return await this.repository.UpdateScore(user);
+      return user == null ? false : true;
     } catch (error) {
-      console.log(error.message);
+      throw new Error(error.message);
+    }
+  }
+
+  async Register(name, imgUrl, date) {
+    try {
+      const user = {
+        userID: this.userId,
+        name: name,
+        imgUrl: imgUrl || "",
+        score: 0,
+        data: [{ date: date, score: 0, obs: "Started" }],
+      };
+      const newUser = await this.repository.RegisterUser(user);
+      return newUser;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async updateScore(date) {
+    try {
+      const { userID, score, data } = await this.user;
+
+      if (data.length > 1) {
+        const trainingDays = data.map((day) => day.date);
+        const alreadyTrained = trainingDays.includes(date);
+        if (alreadyTrained) {
+          throw new Error("já treinou bobão");
+        }
+      }
+
+      const newScore = score + 1;
+      const newTrainingDay = { date: date, score: score, obs: "" };
+      const newData = [...data, newTrainingDay];
+
+      const update = await this.repository.UpdateScore({
+        userID: userID,
+        score: newScore,
+        data: newData,
+      });
+
+      return {
+        name: update.name,
+        score: update.score,
+      };
+    } catch (error) {
       throw new Error(error.message);
     }
   }

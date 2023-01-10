@@ -70,18 +70,15 @@ module.exports = class Ranking {
     try {
       const users = await this.user.getAll();
       const sortedUsers = users.sort((a, b) => b.score - a.score);
+      console.log("sortedUser", sortedUsers);
       let msg = "Os fortes de hoje são:\n";
-      sortedUsers.map((user, index) => {
+      sortedUsers.map((user) => {
         const data = user.data;
-        const trainedToday = data.map((day) => {
-          const boolean = day == date ? true : false;
-          return {
-            bool,
-            obs: day.obs,
-          };
-        });
-        return trainedToday.boolean
-          ? (msg = +`${user.name} - ${trainedToday.obs}`)
+        const trainedToday = data.reduce((acc, curr) => {
+          return curr.date == date ? { ...curr, bool: true } : acc;
+        }, {});
+        return trainedToday.bool
+          ? (msg += `${user.name} - ${trainedToday.obs}\n`)
           : false;
       });
       return msg;

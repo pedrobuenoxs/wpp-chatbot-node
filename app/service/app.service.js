@@ -27,7 +27,7 @@ module.exports = class App {
     if (command == "!ranking") {
       try {
         const users = await this.ranking.createList();
-        this.chat.sendMessage(msg);
+        this.chat.sendMessage(users);
       } catch (error) {
         this.chat.sendMessage(`Atenção: ${error.message}!`);
       }

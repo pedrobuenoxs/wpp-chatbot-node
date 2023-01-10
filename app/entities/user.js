@@ -51,7 +51,7 @@ module.exports = class User {
       }
 
       const newScore = score + 1;
-      const newTrainingDay = { date: date, score: score, obs: emoji };
+      const newTrainingDay = { date: date, score: score + 1, obs: emoji };
       const newData = [...data, newTrainingDay];
 
       const update = await this.repository.UpdateScore({

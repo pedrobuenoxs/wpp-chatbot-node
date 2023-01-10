@@ -49,6 +49,14 @@ module.exports = class Commands {
     "Leozinho",
     "Bolsonaro",
   ];
+
+  desmotivacao = [
+    "Nem precisa ir hoje, a Nat ja ganhou mesmo!",
+    "Tá muito frio, fica em casa",
+    "Qual sentido disso tudo? Coma um miojo e durma",
+    "ao ao ao se for treinar é um bobao",
+    "nao treine",
+  ];
   constructor(msg, chat) {
     this.msg = msg;
     this.chat = chat;
@@ -118,6 +126,15 @@ module.exports = class Commands {
     if (command == "!motivacao") {
       await this.chat.sendMessage(
         `${this.motivacao[Math.floor(Math.random() * this.motivacao.length)]}`
+      );
+    }
+    if (command == "!desmotivacao") {
+      await this.chat.sendMessage(
+        `${
+          this.desmotivacao[
+            Math.floor(Math.random() * this.desmotivacao.length)
+          ]
+        }`
       );
     }
     if (command == "!tusca") {

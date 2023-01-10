@@ -8,15 +8,14 @@ module.exports = class App {
   }
   async handle() {
     const strToArray = (cmdString) => cmdString.split(" ");
-    const commandArray = strToArray(this.msg);
-    const command = commandArray[0].toLowerCase();
-    const flag = commandArray[1];
-    const thirdParam = commandArray[2];
+    const commandArray = strToArray(this.msg.toLowerCase());
+    const [command, flag, thirdParam, forthParam] = commandArray;
+    const emoji = commandArray.slice(-1)[0];
     let date = dateInBrazil();
+
     if (command == "!entrar") {
       try {
         const imgUrl = await this.contact.getProfilePicUrl();
-
         const name = commandArray[1];
         const userName = await this.ranking.join(name, imgUrl, date);
         this.chat.sendMessage(`boooora ${name}!`);
@@ -43,7 +42,7 @@ module.exports = class App {
         date = thirdParam;
       }
       try {
-        let score = await this.ranking.updateScore(date);
+        let score = await this.ranking.updateScore(date, emoji);
         this.chat.sendMessage(`birrrl você tem ${score} pontos!`);
       } catch (error) {
         this.chat.sendMessage(`Atenção: ${error.message}!`);

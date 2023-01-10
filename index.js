@@ -34,7 +34,7 @@ mongoose
       },
     });
     console.log("Db connected");
-    client.initialize();
+    // client.initialize();
     client.on("qr", (qr) => {
       qrcode.generate(qr, { small: true });
     });

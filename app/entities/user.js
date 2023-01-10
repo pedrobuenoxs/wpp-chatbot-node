@@ -38,7 +38,7 @@ module.exports = class User {
     }
   }
 
-  async updateScore(date) {
+  async updateScore(date, emoji) {
     try {
       const { userID, score, data } = await this.user;
 
@@ -51,7 +51,7 @@ module.exports = class User {
       }
 
       const newScore = score + 1;
-      const newTrainingDay = { date: date, score: score, obs: "" };
+      const newTrainingDay = { date: date, score: score, obs: emoji };
       const newData = [...data, newTrainingDay];
 
       const update = await this.repository.UpdateScore({

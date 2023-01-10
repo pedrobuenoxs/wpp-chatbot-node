@@ -15,13 +15,13 @@ module.exports = class Ranking {
       throw new Error(error.message);
     }
   }
-  async updateScore(date) {
+  async updateScore(date, emoji) {
     try {
       const isRegistered = await this.user.isRegistered;
       if (!isRegistered) {
         throw new Error("Você não está registrado!");
       }
-      let user = await this.user.updateScore(date);
+      let user = await this.user.updateScore(date, emoji);
       return user.score;
     } catch (error) {
       throw new Error(error.message);

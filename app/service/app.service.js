@@ -66,5 +66,13 @@ module.exports = class App {
         this.chat.sendMessage(`Atenção: ${error.message}!`);
       }
     }
+    if (command == "!hoje") {
+      try {
+        const profile = await this.ranking.createDailyList(date);
+        this.chat.sendMessage(profile);
+      } catch (error) {
+        this.chat.sendMessage(`Atenção: ${error.message}!`);
+      }
+    }
   }
 };

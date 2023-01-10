@@ -120,31 +120,9 @@ module.exports = class Commands {
         `${this.motivacao[Math.floor(Math.random() * this.motivacao.length)]}`
       );
     }
-    if (command == "!bomdia") {
-      try {
-        let msg = `Bom dia, grupo!\n`;
-        const data = await getWeather();
-        const temperatura = data.current.weather.tp;
-        msg += `A temperatura agora é de ${temperatura}°C!\n`;
-        if (temperatura > 25) {
-          msg += `Está quente, então lembre-se de beber bastante água!`;
-        }
-        if (temperatura < 20) {
-          msg += `Está frio, então lembre-se de se vestir bem!`;
-        }
-        if (temperatura >= 20 && temperatura <= 25) {
-          msg += `Está um dia agradável, então aproveite!`;
-        }
-        await this.chat.sendMessage(msg);
-      } catch (error) {
-        await this.chat.sendMessage(
-          `Alguém chama o sorrisão - ${error.message}`
-        );
-      }
-    }
     if (command == "!tusca") {
       const today = new Date();
-      const tusca = new Date(2022, 10, 12);
+      const tusca = new Date(2023, 10, 12);
       const diff = Math.abs(tusca.getTime() - today.getTime());
       const diffDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
       await this.chat.sendMessage(`Faltam ${diffDays} dias para o Tusca!`);

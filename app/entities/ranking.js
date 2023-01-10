@@ -44,7 +44,7 @@ module.exports = class Ranking {
       const data = user.data;
       const sortedData = data.sort((a, b) => b.date - a.date);
       sortedData.forEach((day, index) => {
-        msg += `${day.date} - ${index}/100\n`;
+        msg += `${day.date} - ${index}/100 - ${day.obs}\n`;
       });
       return msg;
     } catch (error) {
@@ -59,6 +59,30 @@ module.exports = class Ranking {
       let msg = "Ranking:\n";
       sortedUsers.forEach((user, index) => {
         msg += `${index + 1} - ${user.name} - ${user.score}/100\n`;
+      });
+      return msg;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async createDailyList(date) {
+    try {
+      const users = await this.user.getAll();
+      const sortedUsers = users.sort((a, b) => b.score - a.score);
+      let msg = "Os fortes de hoje são:\n";
+      sortedUsers.map((user, index) => {
+        const data = user.data;
+        const trainedToday = data.map((day) => {
+          const boolean = day == date ? true : false;
+          return {
+            bool,
+            obs: day.obs,
+          };
+        });
+        return trainedToday.boolean
+          ? (msg = +`${user.name} - ${trainedToday.obs}`)
+          : false;
       });
       return msg;
     } catch (error) {

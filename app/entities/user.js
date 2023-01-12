@@ -1,7 +1,8 @@
 module.exports = class User {
-  constructor(repository, user_id) {
+  constructor(repository, user_id, contact) {
     this.userId = user_id;
     this.repository = repository;
+    this.repository = contact;
     this.isRegistered = this.isRegistered();
     this.user = this.getUser();
   }
@@ -13,7 +14,7 @@ module.exports = class User {
       throw new Error(error.message);
     }
   }
-  async isRegistered(user_id) {
+  async isRegistered() {
     try {
       const user = await this.repository.findByID(this.userId);
       return user == null ? false : true;
@@ -22,8 +23,9 @@ module.exports = class User {
     }
   }
 
-  async Register(name, imgUrl, date) {
+  async Register(name, date) {
     try {
+      const imgUrl = await this.contact.getProfilePicUrl();
       const user = {
         userID: this.userId,
         name: name,

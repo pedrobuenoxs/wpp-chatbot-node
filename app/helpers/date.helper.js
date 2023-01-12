@@ -1,4 +1,4 @@
-const yesterday = () => new Date(Date.now() - 86400000);
+const yesterdayDate = () => new Date(Date.now() - 86400000);
 
 const dateInBrazil = (_date) => {
   const date = _date || new Date();
@@ -8,6 +8,6 @@ const dateInBrazil = (_date) => {
 };
 
 module.exports = {
-  yesterday,
+  yesterdayDate,
   dateInBrazil,
 };

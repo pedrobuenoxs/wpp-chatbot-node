@@ -1,13 +1,11 @@
 const qrcode = require("qrcode-terminal");
 const { Client, RemoteAuth } = require("whatsapp-web.js");
-const MsgController = require("./app/controller/msg.controller");
-const App = require("./app/service/app.service");
-const Ranking = require("./app/entities/ranking");
 const UserRepository = require("./app/db/user.repository");
 const User = require("./app/entities/user");
-const Commands = require("./app/service/commands.service");
 const { MongoStore } = require("wwebjs-mongo");
 const { app } = require("./config/app");
+const objectify = require("./app/helpers/command.objectify");
+const commandHandler = require("./app/helpers/command.handler");
 
 const { DB_URI } = require("./env");
 
@@ -52,12 +50,10 @@ mongoose
       if (isGroup) {
         try {
           const repository = new UserRepository();
-          const user = new User(repository, user_id);
-          const ranking = new Ranking(user);
-          const appService = new App(msg.body, chat, ranking, contact);
-          const commandService = new Commands(msg.body, chat);
-          const controller = new MsgController(appService, commandService);
-          await controller.handle(msg);
+          const UserClass = new User(repository, user_id, contact);
+          const commandObject = objectify(msg);
+          const handle = commandHandler(commandObject, UserClass);
+          chat.sendMessage(handle.msg);
         } catch (error) {
           console.log(error);
         }

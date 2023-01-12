@@ -1,19 +1,3 @@
-const msgs = [
-  "!pontuar 🎾⛹️‍♀️🤾‍♀️",
-  "!p 🎾⛹️‍♀️🤾‍♀️",
-  "!pontuar ontem 🎾⛹️‍♀️🤾‍♀️",
-  "!p ontem 🎾⛹️‍♀️🤾‍♀️",
-  "!p -o 🎾⛹️‍♀️🤾‍♀️",
-  "!pontuar -r 09/01/2023 🎾⛹️‍♀️🤾‍♀️",
-  "!p -r 09/01/2023 🎾⛹️‍♀️🤾‍♀️",
-  "!entrar Sorriso",
-  "!hoje",
-];
-
-const msgs2 = ["!entrar Pedro o Brabo"];
-const arraysMsg = msgs.map((el) => el.split(" "));
-// console.log(arraysMsg);
-
 function useRegex(input, regex) {
   if (regex == undefined)
     throw new Error(
@@ -67,6 +51,4 @@ const objectify = (msg) => {
   };
 };
 
-arraysMsg.forEach((el) => console.log(arrayToCommandObj(el)));
-
-export default objectify;
+module.exports = objectify;

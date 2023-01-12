@@ -1,42 +1,6 @@
 const { dateInBrazil, yesterdayDate } = require("../helpers/date.helper.js");
-// dependencias anteriores msg, chat, ranking, contact
-const rankingCommands = [
-  "!pontuar", //db -> isRegistered ? addPoints : {msg: "Você não está registrado. Envie !entrar Seu Nome para se registrar"}
-  "!entrar", //db -> isRegistered ? exception : registerUser
-  "!ranking", //db -> getRanking
-  "!profile", //db -> getProfile
-  "!ajuda",
-  /* {msg: "Envie !entrar Seu Nome para se registrar. 
-    Envie !pontuar emoji para pontuar. 
-    Envie !pontuar -r dd/mm/aaa emoji para pontuar em uma data específica. 
-    Envie !ranking para ver o ranking geral. 
-    Envie !profile para ver seu perfil."} */
-  "!news",
-  /*
-      {
-        msg: "📢 Novidades do Bot 📢
-        - Envie !entrar Seu Nome para se registrar. Agora pode enviar nome com espaços.
-        - Envie !pontuar emoji para pontuar. Usem os emojis sabiamente!.
-        - Envie !pontuar -r dd/mm/aaa emoji para pontuar em uma data específica.
-        - Esqueceu de pontuar ontem, bobão? 
-          Envie !pontuar ontem emoji para pontuar ontem.
-  
-        -> Não para por aí!!!
-        Você está achando chato escrever os comandos?
-  
-        Envie !p ontem emoji (pontuar ontem)
-              !p -o emoji 
-              !p -r dd/mm/aaa emoji
-          para pontuar e não precisar escrever o comando.
-  
-      }
-    */
-  "!site",
-  "!hoje", //db -> getTodayTrainers
-];
-const possibleFlags = { "!pontuar": ["-o", "-r"], "!p": ["-o", "-r"] };
 
-export const registerUser = async (UserObj, UserClass) => {
+const registerUser = async (UserObj, UserClass) => {
   try {
     const isRegistered = await UserClass.isRegistered;
     let date = dateInBrazil(new Date());
@@ -54,7 +18,7 @@ export const registerUser = async (UserObj, UserClass) => {
   }
 };
 
-export const addPoints = async (UserObj, UserClass) => {
+const addPoints = async (UserObj, UserClass) => {
   try {
     const thisUser = await User.user;
     const isRegistered = await UserClass.isRegistered;
@@ -82,7 +46,7 @@ export const addPoints = async (UserObj, UserClass) => {
     throw new Error(error.msg);
   }
 }; //done
-export const getRanking = async (UserObj, UserClass) => {
+const getRanking = async (UserObj, UserClass) => {
   try {
     const users = await UserClass.getAll();
     const sortedUsers = users.sort((a, b) => b.score - a.score);
@@ -95,7 +59,7 @@ export const getRanking = async (UserObj, UserClass) => {
     throw new Error(error.message);
   }
 };
-export const getProfile = (UserObj, UserClass) => {
+const getProfile = (UserObj, UserClass) => {
   try {
     const user = UserClass.getUser();
     let msg = `Histórico de ${user.name}:\n`;
@@ -109,11 +73,10 @@ export const getProfile = (UserObj, UserClass) => {
     throw new Error(error.message);
   }
 };
-export const getTodayTrainers = async (UserObj, UserClass) => {
+const getTodayTrainers = async (UserObj, UserClass) => {
   try {
     const users = await UserClass.getAll();
     const sortedUsers = users.sort((a, b) => b.score - a.score);
-    console.log("sortedUser", sortedUsers);
     let msg = "Os fortes de hoje são:\n";
     sortedUsers.map((user) => {
       const data = user.data;
@@ -129,12 +92,23 @@ export const getTodayTrainers = async (UserObj, UserClass) => {
     throw new Error(error.message);
   }
 };
-export const getHelp = (UserObj) => {
+const getHelp = (UserObj) => {
   return { msg: "not implemented" };
 };
-export const getNews = (UserObj) => {
+const getNews = (UserObj) => {
   return { msg: "not implemented" };
 };
-export const getSite = (UserObj) => {
+const getSite = (UserObj) => {
   return { msg: "not implemented" };
+};
+
+module.exports = {
+  registerUser,
+  addPoints,
+  getRanking,
+  getProfile,
+  getTodayTrainers,
+  getHelp,
+  getNews,
+  getSite,
 };

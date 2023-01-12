@@ -20,16 +20,6 @@ const commandFunction = {
   "!hoje": getTodayTrainers,
 };
 
-const commandExample = {
-  0: "!pontuar",
-  1: "🎾⛹️‍♀️🤾‍♀️",
-  2: "aasafa",
-  flag: false,
-  emoji: "🎾⛹️‍♀️🤾‍♀️",
-  command: "!pontuar",
-  date: false,
-};
-
 const commandHandler = async (commandObject, userId, chat, contact) => {
   const aux = {
     userId,
@@ -43,4 +33,4 @@ const commandHandler = async (commandObject, userId, chat, contact) => {
   return msg;
 };
 
-export default commandHandler;
+module.exports = commandHandler;

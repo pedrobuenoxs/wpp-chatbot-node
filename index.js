@@ -3,7 +3,7 @@ const { Client, RemoteAuth } = require("whatsapp-web.js");
 const UserRepository = require("./app/db/user.repository");
 const User = require("./app/entities/user");
 const { MongoStore } = require("wwebjs-mongo");
-const { app } = require("./config/app");
+const { app } = require("./api/config/app");
 const objectify = require("./app/helpers/command.objectify");
 const commandHandler = require("./app/helpers/command.handler");
 
@@ -32,7 +32,7 @@ mongoose
       },
     });
     console.log("Db connected");
-    client.initialize();
+    // client.initialize();
     client.on("qr", (qr) => {
       qrcode.generate(qr, { small: true });
     });
@@ -47,7 +47,7 @@ mongoose
       const user_id = contact.id._serialized;
       const isGroup = chat.isGroup;
 
-      if (isGroup) {
+      if (true) {
         try {
           const repository = new UserRepository();
           const UserClass = new User(repository, user_id, contact);

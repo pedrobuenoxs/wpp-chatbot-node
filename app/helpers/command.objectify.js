@@ -40,6 +40,7 @@ const getText = (msgArray) => {
 };
 
 const objectify = (msg) => {
+  console.log(msg);
   const array = msg.split(" ");
   return {
     flag: getRegex(array, "flagRegex") || false,

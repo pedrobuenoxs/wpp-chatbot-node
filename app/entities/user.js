@@ -2,7 +2,7 @@ module.exports = class User {
   constructor(repository, user_id, contact) {
     this.userId = user_id;
     this.repository = repository;
-    this.repository = contact;
+    this.contact = contact;
     this.isRegistered = this.isRegistered();
     this.user = this.getUser();
   }

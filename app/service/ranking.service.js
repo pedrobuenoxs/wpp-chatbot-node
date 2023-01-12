@@ -5,45 +5,56 @@ const registerUser = async (UserObj, UserClass) => {
     const isRegistered = await UserClass.isRegistered;
     let date = dateInBrazil(new Date());
     const { text } = UserObj;
-    if (!isRegistered) {
-      throw new Error({
-        msg: "Você não está registrado. Envie !entrar Seu Nome para se registrar",
-      });
+    if (isRegistered) {
+      throw new Error("Você já tá registrado bobão");
     }
-    const name = text;
-    const user = await UserClass.Register(...name, date);
-    return { msg: `boooora ${thisUser.name}!!` };
+    if (text == "")
+      throw new Error(
+        "Você precisa enviar seu nome para se registrar. Ex: !entrar João da Silva"
+      );
+
+    const name = text.reduce((acc, cur) => {
+      return acc == "" ? cur : acc + " " + cur;
+    });
+
+    const user = await UserClass.Register(name, date);
+    return { msg: `boooora ${name}!!!` };
   } catch (error) {
-    throw new Error(error.msg);
+    return { msg: error.message };
   }
 };
 
 const addPoints = async (UserObj, UserClass) => {
   try {
-    const thisUser = await User.user;
+    const thisUser = await UserClass.user;
     const isRegistered = await UserClass.isRegistered;
     const { date, emoji, flag, text } = UserObj;
+    console.log(UserObj);
     if (!isRegistered) {
-      throw new Error({
-        msg: "Você não está registrado. Envie !entrar Seu Nome para se registrar",
-      });
+      throw new Error(
+        "Você não está registrado. Envie !entrar Seu Nome para se registrar"
+      );
     }
-    if (flag || text) {
+    if (flag || text[0]) {
       flag === "-r"
         ? await UserClass.updateScore(dateInBrazil(date), emoji)
         : null;
       flag === "-o"
         ? await UserClass.updateScore(dateInBrazil(yesterdayDate()), emoji)
         : null;
-      text.toLowerCase() === "ontem"
+      text[0].toLowerCase() === "ontem"
         ? await UserClass.updateScore(dateInBrazil(yesterdayDate()), emoji)
         : null;
       return {
-        msg: `boooora ${thisUser.name}, você tem ${thisUser.score + 1}!!`,
+        msg: `biiirl ${thisUser.name}, você tem ${thisUser.score + 1} ponto!!`,
       };
     }
+    await UserClass.updateScore(dateInBrazil(new Date()), emoji);
+    return {
+      msg: `boooora ${thisUser.name}, você tem ${thisUser.score + 1}!!`,
+    };
   } catch (error) {
-    throw new Error(error.msg);
+    return { msg: error.message };
   }
 }; //done
 const getRanking = async (UserObj, UserClass) => {
@@ -56,24 +67,27 @@ const getRanking = async (UserObj, UserClass) => {
     });
     return { msg: msg };
   } catch (error) {
-    throw new Error(error.message);
+    return { msg: error.message };
   }
 };
-const getProfile = (UserObj, UserClass) => {
+const getProfile = async (UserObj, UserClass) => {
   try {
-    const user = UserClass.getUser();
+    const user = await UserClass.getUser();
     let msg = `Histórico de ${user.name}:\n`;
     const data = user.data;
+    console.log(user);
+    console.log("userdata", user.data);
     const sortedData = data.sort((a, b) => b.date - a.date);
     sortedData.forEach((day, index) => {
-      msg += `${day.date} - ${index}/100 - ${day.obs}\n`;
+      msg += `${day.date} - ${index}/100 - ${day.obs ? day.obs : ""}\n`;
     });
     return { msg: msg };
   } catch (error) {
-    throw new Error(error.message);
+    return { msg: error.message };
   }
 };
 const getTodayTrainers = async (UserObj, UserClass) => {
+  let date = dateInBrazil(new Date());
   try {
     const users = await UserClass.getAll();
     const sortedUsers = users.sort((a, b) => b.score - a.score);
@@ -84,12 +98,14 @@ const getTodayTrainers = async (UserObj, UserClass) => {
         return curr.date == date ? { ...curr, bool: true } : acc;
       }, {});
       return trainedToday.bool
-        ? (msg += `${user.name} - ${trainedToday.obs}\n`)
+        ? (msg += `${user.name} - ${
+            trainedToday.obs ? trainedToday.obs : ""
+          }\n`)
         : false;
     });
     return { msg: msg };
   } catch (error) {
-    throw new Error(error.message);
+    return { msg: error.message };
   }
 };
 const getHelp = (UserObj) => {

@@ -1,6 +1,6 @@
 const { Router } = require("../config/app");
 const UserRouter = Router();
-const { getData, getUser, createUser } = require("../routes/controller");
+const { getData, getUser, createUser } = require("./controller");
 
 UserRouter.get("/user", async (req, res) => {
   return await getData(req, res);

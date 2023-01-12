@@ -20,15 +20,10 @@ const commandFunction = {
   "!hoje": getTodayTrainers,
 };
 
-const commandHandler = async (commandObject, userId, chat, contact) => {
-  const aux = {
-    userId,
-    chat,
-    contact,
-  };
+const commandHandler = async (commandObject, UserClass) => {
   const { command, emoji, date, flag } = commandObject;
   const doIt = commandFunction[command];
-  const { msg } = await doIt(commandObject, aux);
+  const { msg } = await doIt(commandObject, UserClass);
   if (!commandFunction) throw new Error({ msg: "Comando não encontrado" });
   return msg;
 };

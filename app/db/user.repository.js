@@ -3,6 +3,7 @@ const UserRecordSchema = require("./user.model");
 module.exports = class UserRepository {
   constructor() {
     this.All = this.getData();
+    console.log("User Repository Initialized");
   }
 
   async RegisterUser(data) {

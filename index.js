@@ -15,26 +15,6 @@ app.use("/api", UserRouter);
 
 const port = process.env.PORT || 3000;
 
-const client = new Client({
-  authStrategy: new LocalAuth(),
-  puppeteer: {
-    args: ["--no-sandbox"],
-  },
-});
-mongoose.set("strictQuery", false);
-client.on("qr", (qr) => {
-  app.get("/qr", (req, res) => {
-    res.send(qrcode.generate(qr, { small: true }));
-  });
-});
-
-client.on("ready", () => {
-  console.log("Client is ready!");
-});
-client.on("loading_screen", (percent, message) => {
-  console.log("LOADING SCREEN", percent, message);
-});
-
 client.on("message", async (msg) => {
   await RankingController(msg);
 });
@@ -52,17 +32,31 @@ mongoose
       console.log(`online on port: ${port}`);
     });
 
-    // const store = new MongoStore({ mongoose: mongoose });
+    const store = new MongoStore({ mongoose: mongoose });
+    const client = new Client({
+      authStrategy: new RemoteAuth({
+        store: store,
+        backupSyncIntervalMs: 300000,
+      }),
+      puppeteer: {
+        args: ["--no-sandbox"],
+      },
+    });
+    mongoose.set("strictQuery", false);
 
-    //   {
-    //   authStrategy: new RemoteAuth({
-    //     store: store,
-    //     backupSyncIntervalMs: 300000,
-    //   }),
-    //   puppeteer: {
-    //     args: ["--no-sandbox"],
-    //   },
-    // }
+    client.on("qr", (qr) => {
+      app.get("/qr", (req, res) => {
+        res.send(qrcode.generate(qr, { small: true }));
+      });
+    });
+
+    client.on("ready", () => {
+      console.log("Client is ready!");
+    });
+    client.on("loading_screen", (percent, message) => {
+      console.log("LOADING SCREEN", percent, message);
+    });
+
     console.log("Db connected");
   })
   .catch((err) => {

@@ -10,9 +10,14 @@ const RankingController = async (msg) => {
   const isGroup = chat.isGroup;
   if (isGroup && chat.name == "Botzada2") {
     try {
+      const firstMessage = msg.body.split(" ");
+      const isCommand = firstMessage[0].startsWith("!");
+      if (!isCommand) return;
+
       const repository = new UserRepository();
       const UserClass = new User(repository, user_id, contact);
       const commandObject = objectify(msg.body);
+
       const handle = await commandHandler(commandObject, UserClass);
       console.log(handle);
       await chat.sendMessage(handle);

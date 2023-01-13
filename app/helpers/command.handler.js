@@ -9,6 +9,8 @@ const {
   getTodayTrainers,
 } = require("../service/ranking.service");
 
+const Functions = require("../service/commands.service.js");
+
 const commandFunction = {
   "!entrar": registerUser,
   "!pontuar": addPoints,
@@ -18,6 +20,7 @@ const commandFunction = {
   "!news": getNews,
   "!site": getSite,
   "!hoje": getTodayTrainers,
+  ...Functions,
 };
 
 const commandHandler = async (commandObject, UserClass) => {

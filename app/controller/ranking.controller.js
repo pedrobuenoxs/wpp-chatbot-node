@@ -8,7 +8,7 @@ const RankingController = async (msg) => {
   const contact = await msg.getContact();
   const user_id = contact.id._serialized;
   const isGroup = chat.isGroup;
-  if (isGroup && chat.name == "Botzada2") {
+  if (isGroup && chat.name.startsWith("Tá")) {
     try {
       const firstMessage = msg.body.split(" ");
       const isCommand = firstMessage[0].startsWith("!");

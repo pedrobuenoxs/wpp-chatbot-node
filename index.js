@@ -15,16 +15,6 @@ app.use("/api", UserRouter);
 
 const port = process.env.PORT || 3000;
 
-client.on("message", async (msg) => {
-  await RankingController(msg);
-});
-
-client.on("disconnected", (reason) => {
-  console.log("Client was logged out", reason);
-});
-
-client.initialize();
-
 mongoose
   .connect(DB_URI)
   .then(() => {
@@ -43,7 +33,13 @@ mongoose
       },
     });
     mongoose.set("strictQuery", false);
+    client.on("message", async (msg) => {
+      await RankingController(msg);
+    });
 
+    client.on("disconnected", (reason) => {
+      console.log("Client was logged out", reason);
+    });
     client.on("qr", (qr) => {
       app.get("/qr", (req, res) => {
         res.send(qrcode.generate(qr, { small: true }));
@@ -58,6 +54,7 @@ mongoose
     });
 
     console.log("Db connected");
+    client.initialize();
   })
   .catch((err) => {
     console.log("Error while connecting database::", err);

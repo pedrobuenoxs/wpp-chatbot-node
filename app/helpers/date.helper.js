@@ -1,28 +1,13 @@
-function changeTimezone(date, timezone) {
-  var date = new Date(
-    date.toLocaleString("en-US", {
-      timeZone: timezone,
-    })
-  );
-  var diff = date.getTime() - date.getTime();
-  return new Date(date.getTime() - diff);
-}
+const yesterdayDate = () => new Date(Date.now() - 86400000);
 
-function isToday(date1, date2) {
-  const now = date1.toDateString();
-  const today = date2.toDateString();
-  if (now === today) {
-    return true;
-  }
-  return false;
-}
+const dateInBrazil = (_date) => {
+  const date = _date || new Date();
+  const stringDate = date.toLocaleString("pt-BR");
+  const arrayDate = stringDate.split(" ");
+  return arrayDate[0];
+};
 
-function isTomorrow(date1, date2) {
-  const now = date1.toDateString();
-  const tomorrow = new Date(date2.getTime() + 24 * 60 * 60 * 1000);
-  if (now === tomorrow.toDateString()) {
-    return true;
-  }
-  return false;
-}
-module.exports = { changeTimezone, isTomorrow, isToday };
+module.exports = {
+  yesterdayDate,
+  dateInBrazil,
+};

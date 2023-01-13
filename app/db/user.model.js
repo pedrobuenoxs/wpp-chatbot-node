@@ -5,10 +5,8 @@ const UserRecordSchema = new Schema(
   {
     userID: { type: String },
     name: { type: String },
+    imgUrl: { type: String },
     score: { type: Number },
-    streak: { type: Number },
-    createdAt: { type: Date },
-    updatedAt: { type: Date },
     data: { type: Array },
   },
   {
@@ -16,4 +14,4 @@ const UserRecordSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("dev-profile", UserRecordSchema);
+module.exports = mongoose.model("dev-testes", UserRecordSchema);

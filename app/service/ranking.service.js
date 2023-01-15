@@ -59,12 +59,17 @@ const addPoints = async (UserObj, UserClass) => {
 }; //done
 const getRanking = async (UserObj, UserClass) => {
   try {
+    const month = new Date().getMonth() + 1;
     const users = await UserClass.getAll();
     const sortedUsers = users.sort((a, b) => b.score - a.score);
-    let msg = "Ranking:\n";
+    let msg = "Ranking de janeiro:\n";
     sortedUsers.forEach((user, index) => {
-      msg += `${index + 1} - ${user.name} - ${user.score}/100\n`;
+      const monthScore = user.data.reduce((acc, curr) => {
+        return curr.date.split("/")[1] == month ? acc + 1 : acc;
+      }, 0);
+      msg += `${index + 1} - ${user.name} - ${monthScore}/30\n`;
     });
+
     return { msg: msg };
   } catch (error) {
     return { msg: error.message };
@@ -112,7 +117,33 @@ const getHelp = (UserObj) => {
   return { msg: "not implemented" };
 };
 const getNews = (UserObj) => {
-  return { msg: "not implemented" };
+  let msg = `Novidades: 🚨🚨🚨
+  Envier !entrar [Seu Nome] para se registrar, pode ser nome composto!!
+  Envie !pontuar [emojis] para pontuar
+
+  Ex:
+  !entrar Sorriso 😄
+  !pontuar 🎾🏖️🏃‍♂️
+
+  Esqueceu de pontuar ontem?
+  Envie !pontuar ontem 🎾🏖️🏃‍♂️ para pontuar ontem
+  Envie !pontuar -o 🎾🏖️🏃‍♂️ para pontuar ontem
+  Envier !pontuar -r dd/mm/yyyy 🎾🏖️🏃‍♂️ para pontuar em uma data específica
+
+  Quer saber quem pontuou hoje?
+  Envie *!hoje* e seje feliz
+
+  Quer saber seu histórico?
+  Envier *!profile*
+
+  Quer saber o ranking?
+  Envie *!ranking*
+
+
+
+  `;
+
+  return { msg: msg };
 };
 const getSite = (UserObj) => {
   return { msg: "not implemented" };

@@ -14,6 +14,7 @@ const Functions = require("../service/commands.service.js");
 const commandFunction = {
   "!entrar": registerUser,
   "!pontuar": addPoints,
+  "!p": addPoints,
   "!ranking": getRanking,
   "!profile": getProfile,
   "!ajuda": getHelp,

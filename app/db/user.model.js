@@ -14,4 +14,4 @@ const UserRecordSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("dev-testes", UserRecordSchema);
+module.exports = mongoose.model("prod-2023", UserRecordSchema);

@@ -42,7 +42,7 @@ const getText = (msgArray) => {
 const objectify = (msg) => {
   console.log(msg);
   const array = msg.split(" ");
-  return {
+  const obj = {
     flag: getRegex(array, "flagRegex") || false,
     emoji: getRegex(array, "emojiRegex") || false,
     command: getRegex(array, "commandRegex") || false,
@@ -50,6 +50,7 @@ const objectify = (msg) => {
     text: getText(array) || false,
     array: { ...array },
   };
+  return obj;
 };
 
 module.exports = objectify;

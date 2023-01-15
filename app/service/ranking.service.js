@@ -34,23 +34,16 @@ const addPoints = async (UserObj, UserClass) => {
         "Você não está registrado. Envie !entrar Seu Nome para se registrar"
       );
     }
-    if (flag || text[0]) {
-      flag === "-r"
-        ? await UserClass.updateScore(dateInBrazil(date), emoji)
-        : null;
-      flag === "-o"
-        ? await UserClass.updateScore(dateInBrazil(yesterdayDate()), emoji)
-        : null;
-      text[0].toLowerCase() === "ontem"
-        ? await UserClass.updateScore(dateInBrazil(yesterdayDate()), emoji)
-        : null;
-      return {
-        msg: `biiirl ${thisUser.name}, você tem ${thisUser.score + 1} ${
-          thisUser.score > 1 ? "pontos!!" : "ponto!!"
-        }`,
-      };
-    }
-    await UserClass.updateScore(dateInBrazil(new Date()), emoji);
+
+    const getDate = () => {
+      if (date) return date;
+      if (flag == "-o") return dateInBrazil(yesterdayDate());
+      if (text[0] == "ontem") return dateInBrazil(yesterdayDate());
+      return dateInBrazil();
+    };
+    let date_ = getDate();
+    console.log("getDate", date_);
+    const msg = await UserClass.updateScore(date_, emoji);
     return {
       msg: `boooora ${thisUser.name}, você tem ${thisUser.score + 1} ${
         thisUser.score > 1 ? "pontos!!" : "ponto!!"
@@ -187,7 +180,10 @@ const getNews = (UserObj) => {
   Envie *!ranking*
   
   Quer saber todos os comandos?
-  Envie *!ajuda*`;
+  Envie *!ajuda*
+  
+  Quer escolher o xingamento
+  Envier *!xingar [Pessoa] 5* e escolha o xingamento mudando o numero 5`;
 
   return { msg: msg };
 };

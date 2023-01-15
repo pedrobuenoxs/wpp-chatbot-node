@@ -24,7 +24,10 @@ mongoose
       console.log(`online on port: ${port}`);
     });
     const store = new MongoStore({ mongoose: mongoose });
-
+    let localAuth = {
+      authStrategy: new LocalAuth(),
+      puppeteer: { headless: false },
+    };
     let auth = {
       authStrategy: new RemoteAuth({
         store: store,
@@ -35,7 +38,7 @@ mongoose
       },
     };
 
-    const client = new Client(auth);
+    const client = new Client(localAuth);
 
     client.on("message", async (msg) => {
       await RankingController(msg);

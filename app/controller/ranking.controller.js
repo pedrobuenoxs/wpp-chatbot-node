@@ -18,7 +18,7 @@ const RankingController = async (msg) => {
       const repository = new UserRepository();
       const UserClass = new User(repository, user_id, contact);
       const commandObject = objectify(msg.body);
-
+      console.log(commandObject);
       const handle = await commandHandler(commandObject, UserClass);
       await chat.sendMessage(handle);
     } catch (error) {

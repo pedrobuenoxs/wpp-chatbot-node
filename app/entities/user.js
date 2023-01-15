@@ -43,7 +43,6 @@ module.exports = class User {
   async updateScore(date, emoji) {
     try {
       const { userID, score, data } = await this.user;
-
       if (data.length > 1) {
         const trainingDays = data.map((day) => day.date);
         const alreadyTrained = trainingDays.includes(date);

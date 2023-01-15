@@ -82,7 +82,9 @@ const getRanking = async (UserObj, UserClass) => {
     let msg = `Ranking de ${monthNames[month]}:\n`;
     sortedUsers.forEach((user, index) => {
       const monthScore = user.data.reduce((acc, curr) => {
-        return curr.date.split("/")[1] == month + 1 ? acc + 1 : acc;
+        return curr.date.split("/")[1] == month + 1 && curr.obs != "Started"
+          ? acc + 1
+          : acc;
       }, 0);
       msg += `${index + 1} - ${user.name} - ${monthScore}/${daysInMonth(
         month,

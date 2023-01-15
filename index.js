@@ -1,5 +1,5 @@
 const qrcode = require("qrcode-terminal");
-const { Client, RemoteAuth, LocalAuth } = require("whatsapp-web.js");
+const { Client, RemoteAuth } = require("whatsapp-web.js");
 const mongoose = require("mongoose");
 const { MongoStore } = require("wwebjs-mongo");
 require("dotenv").config();
@@ -24,10 +24,7 @@ mongoose
       console.log(`online on port: ${port}`);
     });
     const store = new MongoStore({ mongoose: mongoose });
-    let localAuth = {
-      authStrategy: new LocalAuth(),
-      puppeteer: { headless: false },
-    };
+
     let auth = {
       authStrategy: new RemoteAuth({
         store: store,
@@ -48,6 +45,7 @@ mongoose
       console.log("Client was logged out", reason);
     });
     client.on("qr", (qr) => {
+      qrcode.generate(qr, { small: true });
       app.get("/qr", (req, res) => {
         res.send(qrcode.generate(qr, { small: true }));
       });

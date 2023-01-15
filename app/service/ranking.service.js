@@ -42,7 +42,6 @@ const addPoints = async (UserObj, UserClass) => {
       return dateInBrazil();
     };
     let date_ = getDate();
-    console.log("getDate", date_);
     const msg = await UserClass.updateScore(date_, emoji);
     return {
       msg: `boooora ${thisUser.name}, você tem ${thisUser.score + 1} ${
@@ -159,6 +158,9 @@ const getNews = (UserObj) => {
   let msg = `Novidades: 🚨🚨🚨
   Envier !entrar [Seu Nome] para se registrar, pode ser nome composto!!
   Envie !pontuar [emojis] para pontuar, ou !p [emojis]. 
+
+  *IMPORTANTE*
+  É necessário enviar pelo menos *dois* *emojis* para salvar os emojis.
 
   Ex:
   !entrar Sorriso 😄

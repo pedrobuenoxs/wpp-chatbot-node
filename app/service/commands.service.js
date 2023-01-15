@@ -134,6 +134,7 @@ const getXingamentos = (commandObj) => {
     xingamentos[Math.floor(Math.random() * xingamentos.length)];
   const nomeXingamento =
     nomesXingamentos[Math.floor(Math.random() * nomesXingamentos.length)];
+  msg = `${nomeXingamento} seu ${xingamento}`;
   if (text) {
     msg = `${text[0]} seu ${xingamento}`;
     if (text.length > 1) {
@@ -141,9 +142,8 @@ const getXingamentos = (commandObj) => {
       const nome = text[0];
       msg = `${nome} seu ${xingamentos[index]}`;
     }
-  } else {
-    msg = `${nomeXingamento} seu ${xingamento}`;
   }
+
   return { msg: msg };
 };
 

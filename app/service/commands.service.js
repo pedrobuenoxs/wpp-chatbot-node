@@ -65,19 +65,19 @@ const herdeiro = [
 
 const memes = {
   "!salve": () => {
-    msg: "Salve mlkote";
+    return { msg: "Salve mlkote" };
   },
   "!foto": () => {
-    msg: "sem foto sem ponto";
+    return { msg: "sem foto sem ponto" };
   },
   "!uuui": () => {
-    msg: "Ele gosxtaaa";
+    return { msg: "Ele gosxtaaa" };
   },
   "!horas": () => {
-    msg: "Agora são 6 e ônibus";
+    return { msg: "Agora são 6 e ônibus" };
   },
   "!beach": () => {
-    msg: "Beach tennis não vale em";
+    return { msg: "Beach tennis não vale em" };
   },
   "!herdeiro": () => {
     return {
@@ -101,9 +101,12 @@ const commands = [
   "!motivacao",
   "!desmotivacao",
   "!xingar",
-  "!bomdia",
-  "!tusca",
   "!herdeiro",
+  "!foto",
+  "!uuui",
+  "!horas",
+  "!beach",
+  "!salve",
 ];
 
 const getCommands = () => {
@@ -111,7 +114,7 @@ const getCommands = () => {
   msg += commands.reduce((acc, command) => {
     return `${acc}\n${command}`;
   }, "");
-  return { msg };
+  return { msg: msg };
 };
 
 const getMotivacao = () => {
@@ -141,7 +144,7 @@ const getXingamentos = (commandObj) => {
   } else {
     msg = `${nomeXingamento} seu ${xingamento}`;
   }
-  return { msg };
+  return { msg: msg };
 };
 
 const commandsFunction = {

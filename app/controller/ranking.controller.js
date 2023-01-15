@@ -19,7 +19,6 @@ const RankingController = async (msg) => {
       const commandObject = objectify(msg.body);
 
       const handle = await commandHandler(commandObject, UserClass);
-      console.log(handle);
       await chat.sendMessage(handle);
     } catch (error) {
       console.log(error);

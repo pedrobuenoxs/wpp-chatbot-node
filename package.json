@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node node_modules/puppeteer/install.js && node index.js",
+    "start": "node node_modules/puppeteer/install.js && bash ./fix.sh && node index.js",
     "dev": "node index.js"
   },
   "dependencies": {

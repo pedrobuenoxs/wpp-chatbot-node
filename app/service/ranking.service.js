@@ -45,12 +45,16 @@ const addPoints = async (UserObj, UserClass) => {
         ? await UserClass.updateScore(dateInBrazil(yesterdayDate()), emoji)
         : null;
       return {
-        msg: `biiirl ${thisUser.name}, você tem ${thisUser.score + 1} ponto!!`,
+        msg: `biiirl ${thisUser.name}, você tem ${thisUser.score + 1} ${
+          thisUser.score > 1 ? "pontos!!" : "ponto!!"
+        }`,
       };
     }
     await UserClass.updateScore(dateInBrazil(new Date()), emoji);
     return {
-      msg: `boooora ${thisUser.name}, você tem ${thisUser.score + 1}!!`,
+      msg: `boooora ${thisUser.name}, você tem ${thisUser.score + 1} ${
+        thisUser.score > 1 ? "pontos!!" : "ponto!!"
+      }!!`,
     };
   } catch (error) {
     return { msg: error.message };
@@ -155,21 +159,18 @@ const getHelp = (UserObj) => {
     !uuui
     !horas
     !beach
-    !herdeiro
-
-
-    
-  `,
+    !herdeiro`,
   };
 };
 const getNews = (UserObj) => {
   let msg = `Novidades: 🚨🚨🚨
   Envier !entrar [Seu Nome] para se registrar, pode ser nome composto!!
-  Envie !pontuar [emojis] para pontuar
+  Envie !pontuar [emojis] para pontuar, ou !p [emojis]. 
 
   Ex:
   !entrar Sorriso 😄
   !pontuar 🎾🏖️🏃‍♂️
+  !p 🎾🏖️🏃‍♂️
 
   Esqueceu de pontuar ontem?
   Envie !pontuar ontem 🎾🏖️🏃‍♂️ para pontuar ontem
@@ -184,8 +185,9 @@ const getNews = (UserObj) => {
 
   Quer saber o ranking?
   Envie *!ranking*
-
-  `;
+  
+  Quer saber todos os comandos?
+  Envie *!ajuda*`;
 
   return { msg: msg };
 };

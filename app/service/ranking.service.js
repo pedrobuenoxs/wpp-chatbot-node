@@ -3,7 +3,7 @@ const { dateInBrazil, yesterdayDate } = require("../helpers/date.helper.js");
 const registerUser = async (UserObj, UserClass) => {
   try {
     const isRegistered = await UserClass.isRegistered;
-    let date = dateInBrazil(new Date());
+    let date = dateInBrazil();
     const { text } = UserObj;
     if (isRegistered) {
       throw new Error("Você já tá registrado bobão");

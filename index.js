@@ -1,5 +1,5 @@
 const qrcode = require("qrcode-terminal");
-const { Client, RemoteAuth } = require("whatsapp-web.js");
+const { Client, RemoteAuth, LocalAuth } = require("whatsapp-web.js");
 const mongoose = require("mongoose");
 const { MongoStore } = require("wwebjs-mongo");
 require("dotenv").config();
@@ -33,6 +33,11 @@ mongoose
       puppeteer: {
         args: ["--no-sandbox"],
       },
+    };
+
+    let localAuth = {
+      authStrategy: new LocalAuth(),
+      puppeteer: { headless: false },
     };
 
     const client = new Client(auth);

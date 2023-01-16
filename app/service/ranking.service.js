@@ -42,9 +42,11 @@ const addPoints = async (UserObj, UserClass) => {
       return dateInBrazil();
     };
     let date_ = getDate();
-    const msg = await UserClass.updateScore(date_, emoji);
+    console.log("Date on production: ", new Date());
+    console.log({ Scoring: { UserObj: UserObj, date: date_ } });
+    const { name, score } = await UserClass.updateScore(date_, emoji);
     return {
-      msg: `boooora ${thisUser.name}, você tem ${thisUser.score + 1} ${
+      msg: `boooora ${name}, você tem ${score} ${
         thisUser.score > 1 ? "pontos!!" : "ponto!!"
       }!!`,
     };
@@ -100,7 +102,7 @@ const getProfile = async (UserObj, UserClass) => {
     const data = user.data;
     const sortedData = data.sort((a, b) => b.date - a.date);
     sortedData.forEach((day, index) => {
-      msg += `${day.date} - ${index}/100 - ${day.obs ? day.obs : ""}\n`;
+      msg += `${day.date} - ${index}/365 - ${day.obs ? day.obs : ""}\n`;
     });
     return { msg: msg };
   } catch (error) {

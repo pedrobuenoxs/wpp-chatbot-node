@@ -62,7 +62,7 @@ mongoose
     client.on("loading_screen", (percent, message) => {
       console.log("LOADING SCREEN", percent, message);
     });
-    // client.initialize();
+    client.initialize();
 
     console.log("Db connected");
   })

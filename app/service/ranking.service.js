@@ -42,6 +42,7 @@ const addPoints = async (UserObj, UserClass) => {
       return dateInBrazil();
     };
     let date_ = getDate();
+    console.log("Date on production: ", new Date());
     console.log({ Scoring: { UserObj: UserObj, date: date_ } });
     const { name, score } = await UserClass.updateScore(date_, emoji);
     return {

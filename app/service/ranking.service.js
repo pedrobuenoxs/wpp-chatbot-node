@@ -36,15 +36,18 @@ const addPoints = async (UserObj, UserClass) => {
     }
 
     const getDate = () => {
-      if (date) return date;
-      if (flag == "-o") return dateInBrazil(yesterdayDate());
-      if (text[0] == "ontem") return dateInBrazil(yesterdayDate());
-      return dateInBrazil();
+      if (date) return { dateToScore: date };
+      if (flag == "-o") return { dateToScore: dateInBrazil(yesterdayDate()) };
+      if (text[0] == "ontem")
+        return { dateToScore: dateInBrazil(yesterdayDate()) };
+      return { dateToScore: dateInBrazil() };
     };
-    let date_ = getDate();
+    let { dateToScore } = getDate();
     console.log("Date on production: ", new Date());
-    console.log({ Scoring: { UserObj: UserObj, date: date_ } });
-    const { name, score } = await UserClass.updateScore(date_, emoji);
+    console.log({
+      Scoring: { UserObj: UserObj, date: dateToScore, emoji: emoji },
+    });
+    const { name, score } = await UserClass.updateScore(dateToScore, emoji);
     return {
       msg: `boooora ${name}, você tem ${score} ${
         thisUser.score > 1 ? "pontos!!" : "ponto!!"

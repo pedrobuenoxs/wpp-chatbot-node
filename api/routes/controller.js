@@ -24,15 +24,15 @@ const getUser = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await repo.findByID(id);
-    console.log(user);
-    const mappedUser = {
-      id: user.userID,
-      name: user.name,
-      imgUrl: user.imgUrl,
-      score: user.score,
-      data: user.data,
-    };
-    res.send(mappedUser);
+    console.log(await user);
+    // const mappedUser = {
+    //   id: user._id,
+    //   name: user.name,
+    //   imgUrl: user.imgUrl,
+    //   score: user.score,
+    //   data: user.data,
+    // };
+    res.send(user);
   } catch (error) {
     throw new Error(error);
   }
@@ -58,9 +58,10 @@ const createUser = async (req, res) => {
 
 const updateUserScore = async (req, res) => {
   try {
-    const { userID, score, data } = req.body;
-    if (!userID || !score || !data) throw new Error("Missing params");
-    const update = await repo.updateScore({ userID, score, data });
+    const { id } = req.params;
+    const { score, data } = req.body;
+    if (!id || !score || !data) throw new Error("Missing params");
+    const update = await repo.UpdateScore({ userID: id, score, data });
     const user = {
       id: update.userID,
       name: update.name,
@@ -68,10 +69,10 @@ const updateUserScore = async (req, res) => {
       score: update.score,
       data: update.data,
     };
-    res.send(user);
+    res.send(update);
   } catch (error) {
     throw new Error(error);
   }
 };
 
-module.exports = { getData, getUser, createUser };
+module.exports = { getData, getUser, createUser, updateUserScore };

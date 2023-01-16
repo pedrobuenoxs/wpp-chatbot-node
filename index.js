@@ -1,5 +1,5 @@
 const qrcode = require("qrcode-terminal");
-const { Client, RemoteAuth } = require("whatsapp-web.js");
+const { Client, RemoteAuth, LocalAuth } = require("whatsapp-web.js");
 const mongoose = require("mongoose");
 const { MongoStore } = require("wwebjs-mongo");
 require("dotenv").config();
@@ -35,6 +35,11 @@ mongoose
       },
     };
 
+    let localAuth = {
+      authStrategy: new LocalAuth(),
+      puppeteer: { headless: false },
+    };
+
     const client = new Client(auth);
 
     client.on("message", async (msg) => {
@@ -57,7 +62,7 @@ mongoose
     client.on("loading_screen", (percent, message) => {
       console.log("LOADING SCREEN", percent, message);
     });
-    client.initialize();
+    // client.initialize();
 
     console.log("Db connected");
   })

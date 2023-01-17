@@ -1,18 +1,23 @@
 const FinRepository = require("../db/fin/fin.repository");
-const { addExpense, getExpenses } = require("../services/fin.service");
+const { addExpense, getExpenses } = require("../service/expense.service");
 
-module.exports = FinController = async (msg) => {
+const FinController = async (msg) => {
   const chat = await msg.getChat();
+
   if (chat.isGroup && chat.name == "golden cave") {
     if (msg.body.startsWith("!add")) {
       const repository = new FinRepository();
-      const handle = await addExpense(msg.body, repository);
-      await chat.sendMessage(handle);
+      const res = await addExpense(msg.body, repository);
+      console.log(msg);
+      await chat.sendMessage(msg);
     }
     if (msg.body.startsWith("!get")) {
       const repository = new FinRepository();
-      const handle = await getExpenses(msg.body, repository);
-      await chat.sendMessage(handle);
+      const res = await getExpenses(msg.body, repository);
+      console.log(msg);
+      await chat.sendMessage(msg);
     }
   }
 };
+
+module.exports = FinController;

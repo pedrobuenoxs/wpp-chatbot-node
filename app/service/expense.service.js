@@ -10,7 +10,7 @@ const addExpense = async (msg, ExpenseRepo) => {
     const data = {
       id: new Date().getTime(),
       desc,
-      value,
+      value: +value,
       payment: {
         card,
         paymentType,
@@ -18,7 +18,8 @@ const addExpense = async (msg, ExpenseRepo) => {
       date,
     };
     const { msg } = await ExpenseRepo.addExpense(data);
-    return { msg };
+    // console.log(data);
+    return { msg: msg };
   } catch (error) {
     return { msg: error.message };
   }
@@ -29,17 +30,16 @@ const getExpenses = async (msg, ExpenseRepo) => {
   const [command] = msgArray;
   try {
     const expenses = await ExpenseRepo.getExpenses();
+    const total = expenses.reduce((acc, expense) => {
+      return acc + expense.value;
+    }, 0);
+    let expensesString = "";
     const mappedExpenses = expenses.map((expense) => {
       const { desc, value, payment, date } = expense;
-      return (
-        `*${desc}*\n` +
-        `*Valor:* ${value}\n` +
-        `*Cartão:* ${payment.card}\n` +
-        `*Tipo de pagamento:* ${payment.paymentType}\n` +
-        `*Data:* ${date}\n`
-      );
+      return (expensesString += `*${desc}*: ${value} - ${payment.card} - ${payment.paymentType} - ${date}`);
     });
-    const expensesString = mappedExpenses.join("\n");
+    expensesString += `\nTotal: R$${total}`;
+
     return { msg: expensesString };
   } catch (error) {
     return { msg: error.message };

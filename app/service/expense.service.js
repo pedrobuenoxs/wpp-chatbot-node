@@ -36,7 +36,7 @@ const getExpenses = async (msg, ExpenseRepo) => {
     let expensesString = "";
     const mappedExpenses = expenses.map((expense) => {
       const { desc, value, payment, date } = expense;
-      return (expensesString += `*${desc}*: ${value} - ${payment.card} - ${payment.paymentType} - ${date}`);
+      return (expensesString += `*${desc}*: R$${value} - ${payment.card} ${payment.paymentType} - ${date} \n`);
     });
     expensesString += `\nTotal: R$${total}`;
 

@@ -50,7 +50,7 @@ module.exports = class Group {
         const trainingDays = data.map((day) => day.date);
         const alreadyTrained = trainingDays.includes(date);
         if (alreadyTrained) {
-          return "já treinou bobão";
+          return { msg: false };
         }
       }
 

@@ -31,11 +31,6 @@ const registerUser = async (UserObj, GroupClass) => {
 
 const addPoints = async (UserObj, GroupClass) => {
   try {
-    if (!(await GroupClass.isCreated)) {
-      throw new Error(
-        "O ranking ainda não foi criado. Envie !criar para criar o ranking"
-      );
-    }
     const thisUser = await GroupClass.GetUser();
     const isRegistered = await GroupClass.isRegistered;
     // console.log({ isRegistered: isRegistered });
@@ -56,7 +51,8 @@ const addPoints = async (UserObj, GroupClass) => {
     let { dateToScore } = getDate();
     console.log({ dateToScore: dateToScore });
 
-    await GroupClass.updateScore(dateToScore, emoji);
+    const update = await GroupClass.updateScore(dateToScore, emoji);
+    if (update.msg == false) return { msg: "Já pontuou hoje bobão" };
     const name = thisUser.name;
     return {
       msg: `boooora ${name}, você tem ${thisUser.score + 1} ${

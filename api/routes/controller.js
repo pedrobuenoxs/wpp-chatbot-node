@@ -1,4 +1,4 @@
-const UserRepository = require("../../app/db/user.repository");
+const UserRepository = require("../../app/db/user/user.repository");
 
 const repo = new UserRepository();
 

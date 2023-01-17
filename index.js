@@ -8,6 +8,7 @@ const { DB_URI } = process.env;
 
 const RankingController = require("./app/controller/ranking.controller");
 const FinController = require("./app/controller/fin.controller");
+const GroupController = require("./app-v2/group.controller");
 
 const { app } = require("./api/config/app");
 const { UserRouter } = require("./api/routes/routes");
@@ -46,6 +47,7 @@ mongoose
     client.on("message", async (msg) => {
       await RankingController(msg);
       await FinController(msg);
+      await GroupController(msg);
     });
 
     client.on("disconnected", (reason) => {

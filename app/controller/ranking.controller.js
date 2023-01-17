@@ -1,4 +1,4 @@
-const UserRepository = require("../db/user.repository");
+const UserRepository = require("../db/user/user.repository");
 const User = require("../entities/user");
 const objectify = require("../helpers/command.objectify");
 const commandHandler = require("../helpers/command.handler");

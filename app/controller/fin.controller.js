@@ -9,13 +9,13 @@ const FinController = async (msg) => {
       const repository = new FinRepository();
       const res = await addExpense(msg.body, repository);
       console.log(msg);
-      await chat.sendMessage(msg);
+      await chat.sendMessage(res.msg);
     }
     if (msg.body.startsWith("!get")) {
       const repository = new FinRepository();
       const res = await getExpenses(msg.body, repository);
       console.log(msg);
-      await chat.sendMessage(msg);
+      await chat.sendMessage(res.msg);
     }
   }
 };

@@ -61,7 +61,6 @@ module.exports = class GroupsRepository {
         { $set: { "users.$.score": score, "users.$.data": data } },
         { new: true }
       );
-      // console.log(update);
       return update;
     } catch (error) {
       throw new Error(error);

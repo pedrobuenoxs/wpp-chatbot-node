@@ -10,9 +10,7 @@ const GroupController = async (msg) => {
   const isGroup = chat.isGroup;
   const groupId = chat.id._serialized;
   const groupName = chat.name;
-  // console.log("Group::", chat);
   if (isGroup && !groupName.startsWith("Tá")) {
-    // console.log("Group message::", msg.body);
     try {
       const firstMessage = msg.body.split(" ");
       const isCommand = firstMessage[0].startsWith("!");
@@ -34,7 +32,6 @@ const GroupController = async (msg) => {
         return;
       }
       const commandObject = objectify(msg.body);
-      // console.log(commandObject);
       const handle = await rankingHandler(commandObject, GroupClass);
       await chat.sendMessage(handle);
     } catch (error) {

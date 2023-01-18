@@ -33,7 +33,6 @@ const addPoints = async (UserObj, GroupClass) => {
   try {
     const thisUser = await GroupClass.GetUser();
     const isRegistered = await GroupClass.isRegistered;
-    // console.log({ isRegistered: isRegistered });
     const { date, emoji, flag, text } = UserObj;
     if (!isRegistered) {
       throw new Error(
@@ -49,7 +48,6 @@ const addPoints = async (UserObj, GroupClass) => {
       return { dateToScore: dateInBrazil() };
     };
     let { dateToScore } = getDate();
-    console.log({ dateToScore: dateToScore });
 
     const update = await GroupClass.updateScore(dateToScore, emoji);
     if (update.msg == false) return { msg: "Já pontuou hoje bobão" };

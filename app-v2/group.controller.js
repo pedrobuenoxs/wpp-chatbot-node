@@ -10,7 +10,7 @@ const GroupController = async (msg) => {
   const isGroup = chat.isGroup;
   const groupId = chat.id._serialized;
   const groupName = chat.name;
-  if (isGroup && !groupName.startsWith("Tá")) {
+  if (isGroup && !groupName.startsWith("Tá") && chat.name != "golden cave") {
     try {
       const firstMessage = msg.body.split(" ");
       const isCommand = firstMessage[0].startsWith("!");

@@ -3,7 +3,6 @@ const Expense = require("./fin.model");
 module.exports = class FinRepository {
   constructor() {
     this.expenses = this.getExpenses();
-    // console.log("User Repository Initialized");
   }
 
   async addExpense(data) {

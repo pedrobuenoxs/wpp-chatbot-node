@@ -24,7 +24,6 @@ const addExpense = async (msg, ExpenseRepo) => {
       date,
     };
     const { msg } = await ExpenseRepo.addExpense(data);
-    // console.log(data);
     return { msg: msg };
   } catch (error) {
     return { msg: error.message };

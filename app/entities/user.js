@@ -5,6 +5,7 @@ module.exports = class User {
     this.contact = contact;
     this.isRegistered = this.isRegistered();
     this.user = this.getUser();
+    this.allUsers = this.getAll();
   }
   async getUser() {
     try {
@@ -74,6 +75,19 @@ module.exports = class User {
     try {
       const users = await this.repository.getData();
       return users;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async updateName(name) {
+    try {
+      const { userID } = await this.user;
+      const update = await this.repository.UpdateName({
+        userID: userID,
+        name: name,
+      });
+      return update;
     } catch (error) {
       throw new Error(error.message);
     }

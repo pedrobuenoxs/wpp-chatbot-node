@@ -70,4 +70,15 @@ module.exports = class GroupsRepository {
   async GetGroups() {
     return await Groups.find();
   }
+
+  async EditName(user, groupId) {
+    try {
+      const { userID, name } = user;
+      const update = await Groups.findOneAndUpdate(
+        { groupId: groupId, "users.userID": userID },
+        { $set: { "users.$.name": name } },
+        { new: true }
+      );
+    } catch (error) {}
+  }
 };

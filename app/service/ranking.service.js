@@ -1,4 +1,5 @@
 const { dateInBrazil, yesterdayDate } = require("../helpers/date.helper.js");
+const { getResponse } = require("../helpers/gpt.helper.js");
 
 const registerUser = async (UserObj, UserClass) => {
   try {
@@ -27,6 +28,8 @@ const registerUser = async (UserObj, UserClass) => {
 const addPoints = async (UserObj, UserClass) => {
   try {
     const thisUser = await UserClass.user;
+    const allUsers = await UserClass.allUsers;
+
     const isRegistered = await UserClass.isRegistered;
     const { date, emoji, flag, text } = UserObj;
     if (!isRegistered) {
@@ -45,10 +48,13 @@ const addPoints = async (UserObj, UserClass) => {
     let { dateToScore } = getDate();
 
     const { name, score } = await UserClass.updateScore(dateToScore, emoji);
+    const responseAi = await getResponse(allUsers, thisUser);
+    const standardMsg = `boooora ${name}, você tem ${score} ${
+      thisUser.score > 1 ? "pontos!!" : "ponto!!"
+    }!!`;
+    const msg = responseAi ? responseAi : standardMsg;
     return {
-      msg: `boooora ${name}, você tem ${score} ${
-        thisUser.score > 1 ? "pontos!!" : "ponto!!"
-      }!!`,
+      msg: msg,
     };
   } catch (error) {
     return { msg: error.message };
@@ -172,7 +178,7 @@ const getNews = (UserObj) => {
   Esqueceu de pontuar ontem?
   Envie !pontuar ontem 🎾🏖️🏃‍♂️ para pontuar ontem
   Envie !pontuar -o 🎾🏖️🏃‍♂️ para pontuar ontem
-  Envier !pontuar -r dd/mm/yyyy 🎾🏖️🏃‍♂️ para pontuar em uma data específica
+  Envier !pontuar dd/mm/yyyy 🎾🏖️🏃‍♂️ para pontuar em uma data específica
 
   Quer saber quem pontuou hoje?
   Envie *!hoje* e seje feliz
@@ -195,6 +201,26 @@ const getSite = (UserObj) => {
   return { msg: "not implemented" };
 };
 
+const editName = async (UserObj, UserClass) => {
+  try {
+    const { text } = UserObj;
+    const user = await UserClass.user;
+    if (!user) {
+      return { msg: "Você não está registrado" };
+    }
+    const newName = text.reduce((acc, cur) => {
+      return acc == "" ? cur : acc + " " + cur;
+    });
+    if (!newName) {
+      return { msg: "Nome inválido" };
+    }
+    const { name } = await UserClass.updateName(newName);
+    return { msg: `Nome alterado para ${name}` };
+  } catch (error) {
+    return { msg: error.message };
+  }
+};
+
 module.exports = {
   registerUser,
   addPoints,
@@ -204,4 +230,5 @@ module.exports = {
   getHelp,
   getNews,
   getSite,
+  editName,
 };

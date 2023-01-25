@@ -42,7 +42,7 @@ mongoose
       puppeteer: { headless: false },
     };
 
-    const client = new Client(auth);
+    const client = new Client(localAuth);
 
     client.on("message", async (msg) => {
       await RankingController(msg);

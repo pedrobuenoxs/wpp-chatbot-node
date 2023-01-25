@@ -7,6 +7,7 @@ const {
   getNews,
   getSite,
   getTodayTrainers,
+  editName,
 } = require("../service/ranking.service");
 
 const Functions = require("../service/commands.service.js");
@@ -21,6 +22,7 @@ const commandFunction = {
   "!news": getNews,
   "!site": getSite,
   "!hoje": getTodayTrainers,
+  "!nome": editName,
   ...Functions,
 };
 

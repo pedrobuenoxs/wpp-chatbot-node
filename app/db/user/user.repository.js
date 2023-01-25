@@ -39,4 +39,16 @@ module.exports = class UserRepository {
   async getData() {
     return await UserRecordSchema.find();
   }
+
+  async UpdateName(user) {
+    try {
+      const { userID, name } = user;
+      const update = await UserRecordSchema.findOneAndUpdate(
+        { userID: userID },
+        { name: name },
+        { new: true }
+      );
+      return update;
+    } catch (error) {}
+  }
 };

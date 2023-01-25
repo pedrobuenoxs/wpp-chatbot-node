@@ -1,4 +1,5 @@
 const { dateInBrazil, yesterdayDate } = require("./date.helper.js");
+const { getResponse } = require("./gpt.helper.js");
 
 const registerUser = async (UserObj, GroupClass) => {
   try {
@@ -32,6 +33,7 @@ const registerUser = async (UserObj, GroupClass) => {
 const addPoints = async (UserObj, GroupClass) => {
   try {
     const thisUser = await GroupClass.GetUser();
+    const allUsers = await GroupClass.allUsers;
     const isRegistered = await GroupClass.isRegistered;
     const { date, emoji, flag, text } = UserObj;
     if (!isRegistered) {
@@ -52,10 +54,14 @@ const addPoints = async (UserObj, GroupClass) => {
     const update = await GroupClass.updateScore(dateToScore, emoji);
     if (update.msg == false) return { msg: "Já pontuou hoje bobão" };
     const name = thisUser.name;
+    const score = thisUser.score + 1;
+    const responseAi = await getResponse(allUsers, thisUser);
+    const standardMsg = `boooora ${name}, você tem ${score} ${
+      thisUser.score > 1 ? "pontos!!" : "ponto!!"
+    }!!`;
+    const msg = responseAi ? responseAi : standardMsg;
     return {
-      msg: `boooora ${name}, você tem ${thisUser.score + 1} ${
-        thisUser.score > 1 ? "pontos!!" : "ponto!!"
-      }!!`,
+      msg: msg,
     };
   } catch (error) {
     return { msg: error.message };
@@ -187,7 +193,7 @@ const getNews = (UserObj) => {
   Esqueceu de pontuar ontem?
   Envie !pontuar ontem 🎾🏖️🏃‍♂️ para pontuar ontem
   Envie !pontuar -o 🎾🏖️🏃‍♂️ para pontuar ontem
-  Envier !pontuar -r dd/mm/yyyy 🎾🏖️🏃‍♂️ para pontuar em uma data específica
+  Envier !pontuar dd/mm/yyyy 🎾🏖️🏃‍♂️ para pontuar em uma data específica
 
   Quer saber quem pontuou hoje?
   Envie *!hoje* e seje feliz
@@ -219,6 +225,19 @@ const createGroup = async (UserObj, GroupClass) => {
   }
 };
 
+const editName = async (UserObj, GroupClass, newName) => {
+  try {
+    const { text } = UserObj;
+    const name = text.reduce((acc, cur) => {
+      return acc == "" ? cur : acc + " " + cur;
+    });
+    await GroupClass.editName(name);
+    return { msg: "Nome alterado com sucesso" };
+  } catch (error) {
+    return { msg: error.message };
+  }
+};
+
 module.exports = {
   registerUser,
   addPoints,
@@ -229,4 +248,5 @@ module.exports = {
   getNews,
   getSite,
   createGroup,
+  editName,
 };

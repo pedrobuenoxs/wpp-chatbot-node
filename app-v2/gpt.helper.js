@@ -25,10 +25,10 @@ const createPrompt = (params) => {
   Você [com entusiasmo, em 50 caracteres]:`;
 };
 
-const getResponse = async (dataArray, user) => {
+const getResponse = async (dataArray, name) => {
   const response = await openai.createCompletion({
     model: "text-davinci-003",
-    prompt: createPrompt({ dataArray, userName: user.name }),
+    prompt: createPrompt({ dataArray, userName: name }),
     temperature: 0.3,
     max_tokens: 250,
     top_p: 1,
@@ -37,5 +37,7 @@ const getResponse = async (dataArray, user) => {
   });
   return response.data.choices[0].text;
 };
+
+// getResponse(dataArray, "gustavinhuuu 🐣").then((res) => console.log(res));
 
 module.exports = { getResponse };

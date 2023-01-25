@@ -79,4 +79,17 @@ module.exports = class User {
       throw new Error(error.message);
     }
   }
+
+  async updateName(name) {
+    try {
+      const { userID } = await this.user;
+      const update = await this.repository.UpdateName({
+        userID: userID,
+        name: name,
+      });
+      return update;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 };

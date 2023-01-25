@@ -201,6 +201,26 @@ const getSite = (UserObj) => {
   return { msg: "not implemented" };
 };
 
+const editName = async (UserObj, UserClass) => {
+  try {
+    const { text } = UserObj;
+    const user = await UserClass.user;
+    if (!user) {
+      return { msg: "Você não está registrado" };
+    }
+    const newName = text.reduce((acc, cur) => {
+      return acc == "" ? cur : acc + " " + cur;
+    });
+    if (!newName) {
+      return { msg: "Nome inválido" };
+    }
+    const { name } = await UserClass.updateName(newName);
+    return { msg: `Nome alterado para ${name}` };
+  } catch (error) {
+    return { msg: error.message };
+  }
+};
+
 module.exports = {
   registerUser,
   addPoints,
@@ -210,4 +230,5 @@ module.exports = {
   getHelp,
   getNews,
   getSite,
+  editName,
 };

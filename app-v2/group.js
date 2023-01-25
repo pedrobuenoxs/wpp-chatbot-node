@@ -8,6 +8,7 @@ module.exports = class Group {
     this.user = this.GetUser();
     this.isRegistered = this.isRegistered();
     this.isCreated = this.getGroup() ? true : false;
+    this.allUsers = this.getGroup();
   }
   async GetUser() {
     try {
@@ -55,7 +56,7 @@ module.exports = class Group {
       }
 
       const newScore = score + 1;
-      const newTrainingDay = { date: date, score: score + 1, obs: emoji };
+      const newTrainingDay = { date: date, score: newScore, obs: emoji };
       const newData = [...data, newTrainingDay];
 
       const update = await this.repository.UpdateScore(
@@ -104,6 +105,23 @@ module.exports = class Group {
     try {
       const group = await this.repository.FindGroup(this.groupId);
       return group == null ? false : group;
+    } catch (error) {
+      return error.message;
+    }
+  }
+
+  async editName(name) {
+    try {
+      const { userID, score, data } = await this.user;
+
+      const group = await this.repository.EditName(
+        {
+          userID: userID,
+          name: name,
+        },
+        this.groupId
+      );
+      return group;
     } catch (error) {
       return error.message;
     }

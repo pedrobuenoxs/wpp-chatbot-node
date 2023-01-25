@@ -8,6 +8,7 @@ const {
   getSite,
   getTodayTrainers,
   createGroup,
+  editName,
 } = require("./group.service");
 
 const commandFunction = {
@@ -21,6 +22,7 @@ const commandFunction = {
   "!news": getNews,
   "!site": getSite,
   "!hoje": getTodayTrainers,
+  "!nome": editName,
 };
 
 const rankingHandler = async (commandObject, UserClass) => {

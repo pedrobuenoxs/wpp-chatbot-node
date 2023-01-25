@@ -54,6 +54,7 @@ const addPoints = async (UserObj, GroupClass) => {
     const update = await GroupClass.updateScore(dateToScore, emoji);
     if (update.msg == false) return { msg: "Já pontuou hoje bobão" };
     const name = thisUser.name;
+    const score = thisUser.score + 1;
     const responseAi = await getResponse(allUsers, thisUser);
     const standardMsg = `boooora ${name}, você tem ${score} ${
       thisUser.score > 1 ? "pontos!!" : "ponto!!"
@@ -247,4 +248,5 @@ module.exports = {
   getNews,
   getSite,
   createGroup,
+  editName,
 };

@@ -55,7 +55,7 @@ const addPoints = async (UserObj, GroupClass) => {
     if (update.msg == false) return { msg: "Já pontuou hoje bobão" };
     const name = thisUser.name;
     const score = thisUser.score + 1;
-    const responseAi = await getResponse(allUsers, thisUser);
+    const responseAi = await getResponse(allUsers, name);
     const standardMsg = `boooora ${name}, você tem ${score} ${
       thisUser.score > 1 ? "pontos!!" : "ponto!!"
     }!!`;
@@ -178,37 +178,26 @@ const getHelp = (UserObj) => {
   };
 };
 const getNews = (UserObj) => {
-  let msg = `Novidades: 🚨🚨🚨
-  Envier !entrar [Seu Nome] para se registrar, pode ser nome composto!!
-  Envie !pontuar [emojis] para pontuar, ou !p [emojis]. 
+  let msg = `Boris Builder v0.1.0 - Criado por @pedrobuenoxs
 
-  *IMPORTANTE*
-  É necessário enviar pelo menos *dois* *emojis* para salvar os emojis.
-
-  Ex:
-  !entrar Sorriso 😄
-  !pontuar 🎾🏖️🏃‍♂️
-  !p 🎾🏖️🏃‍♂️
-
-  Esqueceu de pontuar ontem?
-  Envie !pontuar ontem 🎾🏖️🏃‍♂️ para pontuar ontem
-  Envie !pontuar -o 🎾🏖️🏃‍♂️ para pontuar ontem
-  Envier !pontuar dd/mm/yyyy 🎾🏖️🏃‍♂️ para pontuar em uma data específica
-
-  Quer saber quem pontuou hoje?
-  Envie *!hoje* e seje feliz
-
-  Quer saber seu histórico?
-  Envier *!profile*
-
-  Quer saber o ranking?
-  Envie *!ranking*
+  🚨🚨🚨 Novidades 🚨🚨🚨
   
-  Quer saber todos os comandos?
-  Envie *!ajuda*
+  !nome [Seu Nome] - Altera o nome do usuário
+  !xingar [Nome do usuário] - Xinga o usuário (estão todos no masculino, não me cancelem)
+  !motivacao
+  !desmotivacao
+  !comandos
+  !xingar,
+  !herdeiro,
+  !foto,
+  !uuui,
+  !horas,
+  !beach,
+  !salve,
   
-  Quer escolher o xingamento
-  Envier *!xingar [Pessoa] 5* e escolha o xingamento mudando o numero 5`;
+  Isso é um beta do beta, vai ter muita coisa errada, eu sou um só, me ajudem a melhorar.
+
+  `;
 
   return { msg: msg };
 };

@@ -5,6 +5,7 @@ module.exports = class User {
     this.contact = contact;
     this.isRegistered = this.isRegistered();
     this.user = this.getUser();
+    this.allUsers = this.getAll();
   }
   async getUser() {
     try {

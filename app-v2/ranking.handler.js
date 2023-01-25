@@ -1,3 +1,4 @@
+const Functions = require("../app/service/commands.service.js");
 const {
   registerUser,
   addPoints,
@@ -23,6 +24,7 @@ const commandFunction = {
   "!site": getSite,
   "!hoje": getTodayTrainers,
   "!nome": editName,
+  ...Functions,
 };
 
 const rankingHandler = async (commandObject, UserClass) => {

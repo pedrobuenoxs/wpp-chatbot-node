@@ -22,7 +22,7 @@ const createPrompt = (params) => {
   Eu vou te falar a pessoa que vai pontuar e descrever o que ela fez com emojis.
   Vou te falar também o ranking geral e você vai fazer um comentário sobre o desempenho dessa pessoa. Vamos começar?
   Você: Claro! Me diga quem eu devo acompanhar.
-  Eu: ${userName}. O ranking geral é: ${Ranking}.
+  Eu: A pessoa é:${userName}. O ranking geral é: ${Ranking}.
   Você [com entusiasmo, em 50 caracteres]: `;
 };
 
@@ -38,10 +38,10 @@ const getResponse = async (dataArray, name) => {
       presence_penalty: 0,
     })
     .then((res) => {
-      if (res.status != 200) {
-        return `booooora ${name}!!!`;
-      }
       return res.data.choices[0].text;
+    })
+    .catch((err) => {
+      return `booooora ${name}!!!`;
     });
 
   return await response;

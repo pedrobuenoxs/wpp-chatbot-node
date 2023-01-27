@@ -3,12 +3,11 @@ const axios = require("axios");
 const createPrompt = (user, Ranking) => {
   const { name, score, pos } = user;
   const prompt = `
+Um novo dia começou. Os atletas estão prontos para mais um treino.
 
-Você foi informado que o ranking tem a duração de dias do mês. Ou seja, se o mês tem 30 dias, uma pessoa pode ter até 30 pontos.
+Faça um comentário sobre o desempenho da pessoa a seguir, coloque emoção, use emojis. Fique atento aos outros atletas.
 
-Importante: O ranking reseta todo mês, ou seja, cada mês a pontuação máxima varia.
-
-Faça um comentário sobre o desempenho da pessoa a seguir, utilize trocadilhos. Fique atento aos outros atletas.
+Escreva no máximo 150 caracteres.
 
 - Pessoa: ${name}
 - Pontuação: ${score}
@@ -51,7 +50,7 @@ const getParams = (data, userID) => {
       return {
         userID: user.userID,
         name: user.name,
-        score: user.userID == userID ? monthScore + 1 : monthScore,
+        score: monthScore,
         data: user.data,
       };
     })

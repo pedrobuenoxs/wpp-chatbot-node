@@ -1,5 +1,5 @@
 const { dateInBrazil, yesterdayDate } = require("./date.helper.js");
-const { getResponse } = require("./gpt.helper.js");
+const { getResponse } = require("../chatgpt/chatgpt.res.js");
 
 const registerUser = async (UserObj, GroupClass) => {
   try {
@@ -55,7 +55,11 @@ const addPoints = async (UserObj, GroupClass) => {
     if (update.msg == false) return { msg: "Já pontuou hoje bobão" };
     const name = thisUser.name;
     const score = thisUser.score + 1;
-    const responseAi = await getResponse(allUsers, name);
+    const responseAi = await getResponse(
+      allUsers.users,
+      thisUser.userID,
+      "ranking-geral"
+    );
     const standardMsg = `boooora ${name}, você tem ${score} ${
       thisUser.score > 1 ? "pontos!!" : "ponto!!"
     }!!`;

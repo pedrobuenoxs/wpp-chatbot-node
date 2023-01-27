@@ -3,11 +3,10 @@ const axios = require("axios");
 const createPrompt = (user, Ranking) => {
   const { name, score, pos } = user;
   const prompt = `
-Um novo dia começou. Os atletas estão prontos para mais um treino.
+Um novo dia começou. Os atletas estão prontos para mais um treino e um dia de competição.
 
 Faça um comentário sobre o desempenho da pessoa a seguir, coloque emoção, use emojis. Fique atento aos outros atletas.
-
-Escreva no máximo 150 caracteres.
+Lembre-se, seja criativo, use sua imaginação de narrador esportivo iconico.
 
 - Pessoa: ${name}
 - Pontuação: ${score}
@@ -84,7 +83,6 @@ const getResponse = async (allUsers, userID, conversationId) => {
 
     const response = await axios.post(process.env.CHATGPT_URL, {
       message: `${prompt}`,
-      conversation_id: conversationId,
     });
     return response.data.response;
   } catch (error) {

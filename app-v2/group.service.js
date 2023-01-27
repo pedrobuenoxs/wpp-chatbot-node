@@ -33,7 +33,6 @@ const registerUser = async (UserObj, GroupClass) => {
 const addPoints = async (UserObj, GroupClass) => {
   try {
     const thisUser = await GroupClass.GetUser();
-    const allUsers = await GroupClass.allUsers;
     const isRegistered = await GroupClass.isRegistered;
     const { date, emoji, flag, text } = UserObj;
     if (!isRegistered) {
@@ -55,11 +54,8 @@ const addPoints = async (UserObj, GroupClass) => {
     if (update.msg == false) return { msg: "Já pontuou hoje bobão" };
     const name = thisUser.name;
     const score = thisUser.score + 1;
-    const responseAi = await getResponse(
-      allUsers.users,
-      thisUser.userID,
-      "ranking"
-    );
+    const allUsers = await UserClass.getAll();
+    const responseAi = await getResponse(allUsers, thisUser.userID, "ranking");
     const standardMsg = `boooora ${name}, você tem ${score} ${
       thisUser.score > 1 ? "pontos!!" : "ponto!!"
     }!!`;

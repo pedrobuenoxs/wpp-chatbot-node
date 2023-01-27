@@ -47,11 +47,11 @@ const getParams = (data, userID) => {
         return curr.date.split("/")[1] == month + 1 && curr.obs != "Started"
           ? acc + 1
           : acc;
-      }, 0)
+      }, 0);
       return {
         userID: user.userID,
         name: user.name,
-        score user.userID == userID ? monthScore + 1 : monthScore,
+        score: user.userID == userID ? monthScore + 1 : monthScore,
         data: user.data,
       };
     })

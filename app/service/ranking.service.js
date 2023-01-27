@@ -28,7 +28,7 @@ const registerUser = async (UserObj, UserClass) => {
 const addPoints = async (UserObj, UserClass) => {
   try {
     const thisUser = await UserClass.user;
-    const allUsers = await UserClass.allUsers;
+
     const userID = await UserClass.userId;
 
     const isRegistered = await UserClass.isRegistered;
@@ -49,6 +49,8 @@ const addPoints = async (UserObj, UserClass) => {
     let { dateToScore } = getDate();
 
     const { name, score } = await UserClass.updateScore(dateToScore, emoji);
+
+    const allUsers = await UserClass.getAll();
     const responseAi = await getResponse(allUsers, userID, "default");
     const standardMsg = `boooora ${name}, você tem ${score} ${
       thisUser.score > 1 ? "pontos!!" : "ponto!!"

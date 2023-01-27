@@ -3,12 +3,12 @@ const axios = require("axios");
 const createPrompt = (user, Ranking) => {
   const { name, score, pos } = user;
   const prompt = `
-
 Um novo dia começou. Os atletas estão prontos para mais um treino.
 
-Faça um comentário sobre o desempenho da pessoa a seguir, coloque emoção. Fique atento aos outros atletas.
+Faça um comentário sobre o desempenho da pessoa a seguir, coloque emoção, use emojis. Fique atento aos outros atletas.
 
 Escreva no máximo 150 caracteres.
+
 - Pessoa: ${name}
 - Pontuação: ${score}
 - Colocação: ${pos}º

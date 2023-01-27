@@ -2,12 +2,11 @@ const axios = require("axios");
 
 const createPrompt = (user, Ranking) => {
   const { name, score, pos } = user;
-  const prompt = `Você é um grande narrador esportivo, famoso por suas narrações inesquecíveis.
-A competição de hoje é entre os maiores atletas do mundo, e você foi contratado para narrar a competição.
-Você deve fazer uma narração sobre o desempenho de cada atleta, e também sobre o desempenho geral da competição.
-Você deve utilizar figuras de linguagem, emojis e hashtags para tornar a narração mais interessante.
-Você deve utilizar no máximo 150 caracteres.
+  const prompt = `
 
+Você foi informado que o ranking tem a duração de dias do mês. Ou seja, se o mês tem 30 dias, uma pessoa pode ter até 30 pontos.
+
+Importante: O ranking reseta todo mês, ou seja, cada mês a pontuação máxima varia.
 
 Faça um comentário sobre o desempenho da pessoa a seguir, utilize trocadilhos. Fique atento aos outros atletas.
 
@@ -22,20 +21,37 @@ ${Ranking}
 };
 
 const getParams = (data, userID) => {
+  const monthNames = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro",
+  ];
+  function daysInMonth(month, year) {
+    return new Date(year, month, 0).getDate();
+  }
+  const month = new Date().getMonth();
+  const year = new Date().getFullYear();
+
   const arrayUsers = data
     .map((user) => {
-      if (user.userID == userID) {
-        return {
-          userID: user.userID,
-          name: user.name,
-          score: user.data.length,
-          data: user.data,
-        };
-      }
+      const monthScore = user.data.reduce((acc, curr) => {
+        return curr.date.split("/")[1] == month + 1 && curr.obs != "Started"
+          ? acc + 1
+          : acc;
+      }, 0)
       return {
         userID: user.userID,
         name: user.name,
-        score: user.data.length - 1,
+        score user.userID == userID ? monthScore + 1 : monthScore,
         data: user.data,
       };
     })
@@ -53,7 +69,10 @@ const getParams = (data, userID) => {
   const user = mappedData.find((user) => user.userID == userID);
 
   const Ranking = mappedData.map((user, index) => {
-    return `${index + 1}º - ${user.name} - ${user.score} pontos\n`;
+    return `${index + 1}º - ${user.name} - ${user.score}/${daysInMonth(
+      month,
+      year
+    )}\n`;
   });
 
   return { user, Ranking };

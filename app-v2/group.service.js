@@ -58,7 +58,7 @@ const addPoints = async (UserObj, GroupClass) => {
     const responseAi = await getResponse(
       allUsers.users,
       thisUser.userID,
-      "default"
+      "ranking"
     );
     const standardMsg = `boooora ${name}, você tem ${score} ${
       thisUser.score > 1 ? "pontos!!" : "ponto!!"

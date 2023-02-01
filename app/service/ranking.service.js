@@ -80,7 +80,7 @@ const getRanking = async (UserObj, UserClass) => {
       "Dezembro",
     ];
     function daysInMonth(month, year) {
-      return new Date(year, month, 0).getDate();
+      return new Date(year, month + 1, 0).getDate();
     }
     const month = new Date().getMonth();
     const year = new Date().getFullYear();

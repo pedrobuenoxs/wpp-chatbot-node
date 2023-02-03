@@ -56,7 +56,7 @@ const addPoints = async (UserObj, GroupClass) => {
     const score = thisUser.score + 1;
     const allUsers = await GroupClass.getGroup();
     const month = new Date().getMonth() + 1;
-    const userMonthScore = allUsers.reduce((acc, curr) => {
+    const userMonthScore = allUsers.users.reduce((acc, curr) => {
       return curr.userID == thisUser.userID
         ? curr.data.reduce((acc, curr) => {
             return curr.date.split("/")[1] == month && curr.obs != "Started"

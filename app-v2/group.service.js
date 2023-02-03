@@ -55,13 +55,24 @@ const addPoints = async (UserObj, GroupClass) => {
     const name = thisUser.name;
     const score = thisUser.score + 1;
     const allUsers = await GroupClass.getGroup();
+    const month = new Date().getMonth() + 1;
+    const userMonthScore = allUsers.reduce((acc, curr) => {
+      return curr.userID == thisUser.userID
+        ? curr.data.reduce((acc, curr) => {
+            return curr.date.split("/")[1] == month && curr.obs != "Started"
+              ? acc + 1
+              : acc;
+          }, 0)
+        : acc;
+    }, 0);
+
     const responseAi = await getResponse(
       allUsers.users,
       thisUser.userID,
       "ranking"
     );
-    const standardMsg = `boooora ${name}, você tem ${score} ${
-      thisUser.score > 1 ? "pontos!!" : "ponto!!"
+    const standardMsg = `boooora ${name}, você tem ${userMonthScore} ${
+      userMonthScore > 1 ? "pontos!!" : "ponto!!"
     }!!`;
     const msg = responseAi ? responseAi : standardMsg;
     return {
@@ -98,15 +109,29 @@ const getRanking = async (UserObj, GroupClass) => {
     const month = new Date().getMonth();
     const year = new Date().getFullYear();
     const group = await GroupClass.getGroup();
-    const sortedUsers = group.users.sort((a, b) => b.score - a.score);
-    let msg = `Ranking de ${monthNames[month]}:\n`;
-    sortedUsers.forEach((user, index) => {
+
+    const usersWithMonthScore = group.users.map((user) => {
       const monthScore = user.data.reduce((acc, curr) => {
         return curr.date.split("/")[1] == month + 1 && curr.obs != "Started"
           ? acc + 1
           : acc;
       }, 0);
-      msg += `${index + 1} - ${user.name} - ${monthScore}/${daysInMonth(
+      return { name: user.name, monthScore: monthScore };
+    });
+
+    const sortedUsers = usersWithMonthScore.sort(
+      (a, b) => b.monthScore - a.monthScore
+    );
+
+    let msg = `Ranking de ${monthNames[month]}:\n`;
+    let currentRank = 1;
+    let currentScore = sortedUsers[0].monthScore;
+    sortedUsers.forEach((user, index) => {
+      if (user.monthScore < currentScore) {
+        currentRank = currentRank + 1;
+        currentScore = user.monthScore;
+      }
+      msg += `${currentRank} - ${user.name} - ${user.monthScore}/${daysInMonth(
         month,
         year
       )}\n`;

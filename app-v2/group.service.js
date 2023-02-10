@@ -294,8 +294,8 @@ const getSite = (UserObj) => {
 
 const createGroup = async (UserObj, GroupClass) => {
   try {
-    await GroupClass.createGroup();
-    return { msg: "Grupo criado com sucesso" };
+    // await GroupClass.createGroup();
+    return { msg: "Not available" };
   } catch (error) {
     return { msg: error.message };
   }

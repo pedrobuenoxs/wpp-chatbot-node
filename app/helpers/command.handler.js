@@ -8,6 +8,7 @@ const {
   getSite,
   getTodayTrainers,
   editName,
+  getStreakRanking,
 } = require("../service/ranking.service");
 
 const Functions = require("../service/commands.service.js");
@@ -23,6 +24,7 @@ const commandFunction = {
   "!site": getSite,
   "!hoje": getTodayTrainers,
   "!nome": editName,
+  "!streak": getStreakRanking,
   ...Functions,
 };
 

@@ -131,6 +131,61 @@ const getRanking = async (UserObj, UserClass) => {
     return { msg: error.message };
   }
 };
+const getStreakRanking = async (UserObj, UserClass) => {
+  function formatDate(date) {
+    let parts = date.split("/");
+    return parts[2] + "-" + parts[1] + "-" + parts[0];
+  }
+
+  function getStreaks(data) {
+    let currentStreak = 0;
+    let biggestStreak = 0;
+    let prevDate = null;
+    for (let i = 0; i < data.length; i++) {
+      const date = new Date(data[i].date);
+      if (
+        prevDate !== null &&
+        prevDate.getTime() + 24 * 60 * 60 * 1000 === date.getTime()
+      ) {
+        currentStreak++;
+        if (currentStreak > biggestStreak) {
+          biggestStreak = currentStreak;
+        }
+      } else {
+        currentStreak = 0;
+      }
+      prevDate = date;
+    }
+    return { currentStreak, biggestStreak };
+  }
+  let msg = `🔥 Ranking de Streaks: Atual | Maior \n`;
+  try {
+    const users = await UserClass.getAll();
+    const mapUser = users
+      .map((user) => {
+        const formattedData = user.data.map((day) => {
+          return { date: formatDate(day.date) };
+        });
+        const { currentStreak, biggestStreak } = getStreaks(formattedData);
+        return {
+          name: user.name,
+          currentStreak: currentStreak,
+          biggestStreak: biggestStreak,
+        };
+      })
+      .sort((a, b) => b.biggestStreak - a.biggestStreak);
+
+    mapUser.forEach((user, index) => {
+      msg += `${index + 1}º - ${user.name} - 🔼${user.currentStreak} - 🔥${
+        user.biggestStreak
+      }\n`;
+    });
+
+    return { msg: msg };
+  } catch (error) {
+    return { msg: error.message };
+  }
+};
 const getProfile = async (UserObj, UserClass) => {
   try {
     const user = await UserClass.getUser();
@@ -261,4 +316,5 @@ module.exports = {
   getNews,
   getSite,
   editName,
+  getStreakRanking,
 };

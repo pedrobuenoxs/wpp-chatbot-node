@@ -24,6 +24,7 @@ const commandFunction = {
   "!site": getSite,
   "!hoje": getTodayTrainers,
   "!nome": editName,
+  "!streak": getStreakRanking,
   ...Functions,
 };
 

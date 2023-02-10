@@ -176,7 +176,7 @@ const getStreakRanking = async (UserObj, UserClass) => {
       .sort((a, b) => b.biggestStreak - a.biggestStreak);
 
     mapUser.forEach((user, index) => {
-      msg += `${index + 1}º - ${user.name} - 🔼${user.currentStreak} - 🔥${
+      msg += `${index + 1}º - ${user.name} - 🔺${user.currentStreak} - 🔥${
         user.biggestStreak
       }\n`;
     });

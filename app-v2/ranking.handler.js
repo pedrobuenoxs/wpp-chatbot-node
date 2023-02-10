@@ -10,6 +10,7 @@ const {
   getTodayTrainers,
   createGroup,
   editName,
+  getStreakRanking,
 } = require("./group.service");
 
 const commandFunction = {
